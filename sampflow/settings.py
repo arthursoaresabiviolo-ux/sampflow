@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'SampFlow.urls'
+ROOT_URLCONF = 'sampflow.urls'
 
 TEMPLATES = [
     {
@@ -66,7 +66,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'SampFlow.wsgi.application'
+WSGI_APPLICATION = 'sampflow.wsgi.application'
 
 
 # Database
