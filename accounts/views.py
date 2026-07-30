@@ -2,7 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def login(request):
-    return HttpResponse('Página de login')
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
 def forgot_password(request):
-    return HttpResponse('Página de recuperação de senha')
+    if request.method == 'GET':
+        return render(request, 'forgot_password.html')
