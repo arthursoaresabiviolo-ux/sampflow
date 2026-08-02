@@ -6,7 +6,7 @@ def login(request):
         return render(request, 'login.html')
     
     elif request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
 def forgot_password(request):
