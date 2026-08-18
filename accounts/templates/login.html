@@ -17,10 +17,16 @@
         <input type="email" id="email" name="email" placeholder="Digite seu email" required><br><br>
 
         <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" placeholder="Digite sua senha" required><br><br>
+        <div style="display: inline-flex; align-items: center; position: relative;">
+            <input type="password" id="password" name="password" placeholder="Digite sua senha" required style="padding-right: 30px;">
+            <button type="button" id="togglePassword" style="background: none; border: none; cursor: pointer; margin-left: -30px; padding: 0 8px;">
+                <i class="fa-solid fa-eye" id="toggleIcon"></i>
+            </button>
+        </div><br><br>
 
         <button type="submit">Entrar</button>
     </form>
+    
     <p>Esqueceu sua senha? <a href="{% url 'forgot_password' %}">Clique aqui</a> para recuperá-la.</p>
     <script src="static/accounts/js/login.js"></script>
 </body>
