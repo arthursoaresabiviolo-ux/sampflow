@@ -15,7 +15,24 @@
     <p>Confira abaixo a situação de suas amostras:</p>
 
     <div>
-        <!-- Conteúdo da di -->
+        <button onclick="document.getElementById('modal-client').showModal()">Adicionar Cliente</button>
+
+        <dialog id="modal-client">
+            <h3>Cadastrar Cliente</h3>
+            <form method="POST" action="{% url 'create_client' %}"> {% csrf_token %}
+                <div>
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="country">País:</label>
+                    <input type="text" id="country" name="country" required>
+                </div>
+                <br>
+                <button type="submit">Salvar</button>
+                <button type="button" onclick="document.getElementById('modal-client').close()">Cancelar</button>
+            </form>
+        </dialog>
     </div>
     
 </body>
