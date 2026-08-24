@@ -1,42 +1,84 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SampFlow</title>
     <link rel="stylesheet" href="/static/home/css/home.css">
-
 </head>
 <body>
-    <h1>Tela Inicial</h1>
 
-    <p>Bem-vindo ao SampFlow!</p>
+    <header class="app-header">
+        <h1>Dashboard</h1>
+        <p class="subtitle">Specialty coffee sample tracking and evaluation</p>
+    </header>
 
-    <p>Confira abaixo a situação de suas amostras:</p>
+    <!-- Navigation Tabs -->
+    <nav class="tabs-navigation">
+        <button class="tab-btn" onclick="switchTab(event, 'samples-tab')">SAMPLES</button>
+        <button class="tab-btn" onclick="switchTab(event, 'dashboards-tab')">DASHBOARDS</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'clients-tab')">CLIENTS</button>
+    </nav>
+    <div class="tabs-divider"></div>
 
-    <div>
-        <button onclick="document.getElementById('modal-client').showModal()">Adicionar Cliente</button>
+    <!-- Tab 1: Samples (Empty) -->
+    <section id="samples-tab" class="tab-content"></section>
 
-        <dialog id="modal-client">
-            <h3>Cadastrar Cliente</h3>
-            <form method="POST" action="{% url 'create_client' %}"> {% csrf_token %}
-                <div>
-                    <label for="name">Nome:</label>
-                    <input type="text" id="name" name="name" required>
+    <!-- Tab 2: Dashboards (Empty) -->
+    <section id="dashboards-tab" class="tab-content"></section>
+
+    <!-- Tab 3: Clients -->
+    <section id="clients-tab" class="tab-content active">
+        <div class="clients-layout">
+            
+            <!-- Left Side: Registered Clients List -->
+            <div class="card-panel clients-list-panel">
+                <h2>Registered Clients</h2>
+                <span class="count-badge">{{ clients|length }} clients</span>
+
+                <div class="clients-list">
+                    {% for client in clients %}
+                        <div class="client-item">
+                            <div class="client-avatar">
+                                {{ client.country|slice:":2"|upper }}
+                            </div>
+                            <div class="client-info">
+                                <h3>{{ client.name }}</h3>
+                                <p class="client-meta">{{ client.country }}</p>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="empty-state">No clients registered yet.</p>
+                    {% endfor %}
                 </div>
-                <div>
-                    <label for="country">País:</label>
-                    <input type="text" id="country" name="country" required>
-                </div>
-                <br>
-                <button type="submit">Salvar</button>
-                <button type="button" onclick="document.getElementById('modal-client').close()">Cancelar</button>
-            </form>
-        </dialog>
-    </div>
-    
+            </div>
+
+            <!-- Right Side: New Client Form -->
+            <div class="card-panel client-form-panel">
+                <h2>New Client</h2>
+                
+                <form method="POST" action="{% url 'create_client' %}" class="client-form">{% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="name">COMPANY NAME *</label>
+                        <input type="text" id="name" name="name" placeholder="ex: Tokyo Specialty Coffee" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">COUNTRY *</label>
+                        <input type="text" id="country" name="country" placeholder="ex: Japan" required>
+                    </div>
+
+                    <button type="submit" class="btn-submit">REGISTER CLIENT</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 SampFlow. All rights reserved.</p>
+    </footer>
+    <script src="static/home/js/home.js"></script>
 </body>
-<footer>
-    <p>&copy; 2026 SampFlow. Todos os direitos reservados.</p>
-</footer>
 </html>
