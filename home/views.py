@@ -3,7 +3,8 @@ from .models import Client
 
 def home(request):
     if request.method == 'GET':
-        return render(request, 'home.html')
+        clients = Client.objects.all()
+        return render(request, 'home.html', {'clients': clients})
 
 def create_client(request):
     if request.method == 'POST':
