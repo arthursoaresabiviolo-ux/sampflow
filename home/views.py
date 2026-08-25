@@ -13,3 +13,9 @@ def create_client(request):
         if name and country:
             Client.objects.create(name=name, country=country)
     return redirect('home')
+
+def delete_client(request, client_id):
+    if request.method == 'POST':
+        client = Client.objects.get(id=client_id)
+        client.delete()
+        return redirect('home')
