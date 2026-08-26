@@ -197,3 +197,40 @@ footer {
     color: #52493e;
     font-size: 0.8rem;
 }
+
+/* Align item content with delete button pushed to the right */
+.client-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 0;
+    border-bottom: 1px solid #211a14;
+}
+
+.client-info {
+    flex-grow: 1; /* Pushes the delete button to the right */
+}
+
+/* Delete Button Styles */
+.delete-form {
+    margin: 0;
+    padding: 0;
+}
+
+.btn-delete {
+    background: transparent;
+    border: none;
+    color: #7a7063;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    color: #e55353;
+    background-color: rgba(229, 83, 83, 0.1);
+}
