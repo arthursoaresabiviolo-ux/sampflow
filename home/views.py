@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Client
 
 def home(request):
@@ -16,6 +16,6 @@ def create_client(request):
 
 def delete_client(request, client_id):
     if request.method == 'POST':
-        client = Client.objects.get(id=client_id)
+        client = get_object_or_404(Client, id=client_id)
         client.delete()
         return redirect('home')
