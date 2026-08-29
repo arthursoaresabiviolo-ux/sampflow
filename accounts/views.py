@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 def user_login(request):
@@ -30,3 +30,7 @@ def forgot_password(request):
 
     elif request.method == 'POST':
             email = request.POST.get('email')
+
+def user_logout(request):
+    logout(request)  # Ends the session for the logged-in user.
+    return redirect('login')  # Redirects to the route named 'login'
