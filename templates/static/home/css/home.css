@@ -232,10 +232,10 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #f4f8fb 0%, #e6f0f8 100%);
+    background-color: #005a9c;
     padding: 24px 30px;
     border-radius: 16px;
-    border: 1px solid #d0e1f0;
+    border: 1px solid #000000;
     box-shadow: 0 4px 20px rgba(0, 51, 102, 0.05);
     margin-bottom: 24px;
     position: relative;
@@ -256,19 +256,19 @@ footer {
 .header-left h1 {
     margin: 0;
     font-size: 30px;
-    color: #0b2545;
+    color: #ffffff;
     font-weight: 700;
     font-family: 'Georgia', serif;
 }
 
 .header-left h1 span {
-    color: #005a9c;
+    color: #ffc107;
 }
 
 .header-left .subtitle {
     margin: 4px 0 0 0;
     font-size: 13px;
-    color: #627d98;
+    color: #ffffff;
 }
 
 .user-card {
