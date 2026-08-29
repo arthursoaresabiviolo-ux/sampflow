@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +10,14 @@
 
     <header class="app-header">
         <h1>Seja bem vindo ao SampFlow, {{user}}!</h1>
-        <p class="subtitle">Specialty coffee sample tracking and evaluation</p>
+        <p class="subtitle">Gerenciamento e uma visão detalhada de seus envios</p>
     </header>
 
     <!-- Navigation Tabs -->
     <nav class="tabs-navigation">
-        <button class="tab-btn" onclick="switchTab(event, 'samples-tab')">SAMPLES</button>
+        <button class="tab-btn" onclick="switchTab(event, 'samples-tab')">AMOSTRAS</button>
         <button class="tab-btn" onclick="switchTab(event, 'dashboards-tab')">DASHBOARDS</button>
-        <button class="tab-btn active" onclick="switchTab(event, 'clients-tab')">CLIENTS</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'clients-tab')">CLIENTES</button>
     </nav>
     <div class="tabs-divider"></div>
 
@@ -25,7 +25,7 @@
     <section id="samples-tab" class="tab-content">
         <div class="samples-layout">
             <div class="card-panel samples-list-panel">
-                <h2>Samples</h2>
+                <h2>Amostras</h2>
             </div>
         </div>
     </section>
@@ -45,8 +45,8 @@
             
             <!-- Left Side: Registered Clients List -->
             <div class="card-panel clients-list-panel">
-                <h2>Registered Clients</h2>
-                <span class="count-badge">{{ clients|length }} clients</span>
+                <h2>Clientes registrados</h2>
+                <span class="count-badge">{{ clients|length }} cliente(s)</span>
 
                 <div class="clients-list">
                     {% for client in clients %}
@@ -60,7 +60,7 @@
                             </div>
 
                             <!-- Delete Button Form -->
-                            <form method="POST" action="{% url 'delete_client' client.id %}" onsubmit="return confirm('Are you sure you want to delete {{ client.name }}?');" class="delete-form">{% csrf_token %}
+                            <form method="POST" action="{% url 'delete_client' client.id %}" onsubmit="return confirm('Você tem certeza que deseja excluir {{ client.name }}?');" class="delete-form">{% csrf_token %}
                                 <button type="submit" class="btn-delete" title="Delete client">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="3 6 5 6 21 6"></polyline>
@@ -72,28 +72,28 @@
                             </form>
                         </div>
                     {% empty %}
-                        <p class="empty-state">No clients registered yet.</p>
+                        <p class="empty-state">Nenhum cliente registrado ainda.</p>
                     {% endfor %}
                 </div>
             </div>
 
             <!-- Right Side: New Client Form -->
             <div class="card-panel client-form-panel">
-                <h2>New Client</h2>
+                <h2>Novo Cliente</h2>
                 
                 <form method="POST" action="{% url 'create_client' %}" class="client-form">{% csrf_token %}
                     
                     <div class="form-group">
-                        <label for="name">COMPANY NAME *</label>
+                        <label for="name">NOME DA EMPRESA *</label>
                         <input type="text" id="name" name="name" placeholder="ex: Tokyo Specialty Coffee" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="country">COUNTRY *</label>
-                        <input type="text" id="country" name="country" placeholder="ex: Japan" required>
+                        <label for="country">PAÍS *</label>
+                        <input type="text" id="country" name="country" placeholder="ex: Japão" required>
                     </div>
 
-                    <button type="submit" class="btn-submit">REGISTER CLIENT</button>
+                    <button type="submit" class="btn-submit">REGISTRAR CLIENTE</button>
                 </form>
             </div>
 
@@ -101,7 +101,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 SampFlow. All rights reserved.</p>
+        <p>&copy; 2026 SampFlow. Todos os direitos reservados.</p>
     </footer>
     <script src="/static/home/js/home.js"></script>
 </body>
