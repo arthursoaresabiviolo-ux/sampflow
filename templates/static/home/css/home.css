@@ -1,6 +1,6 @@
 /* Base Styles */
 body {
-    background-color: #0f0c08;
+    background-color: #fffefd;
     color: #d1c7bd;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -10,12 +10,12 @@ body {
 .app-header h1 {
     font-family: 'Georgia', serif;
     font-size: 2.2rem;
-    color: #f5efe6;
+    color: #005ba0;
     margin: 0;
 }
 
 .subtitle {
-    color: #8c8275;
+    color: #005ba0;
     font-size: 0.95rem;
     margin-top: 5px;
 }
@@ -30,7 +30,7 @@ body {
 .tab-btn {
     background: none;
     border: none;
-    color: #7a7063;
+    color: #005ba0;
     font-weight: 700;
     font-size: 0.85rem;
     letter-spacing: 1.5px;
@@ -54,7 +54,7 @@ body {
 }
 
 .tabs-divider {
-    border-bottom: 1px solid #26201a;
+    border-bottom: 1px solid #005ba0;
     margin-bottom: 25px;
 }
 
@@ -75,7 +75,7 @@ body {
 }
 
 .card-panel {
-    background-color: #16120e;
+    background-color: #005ba0;
     border: 1px solid #26201a;
     border-radius: 12px;
     padding: 24px;
@@ -89,7 +89,7 @@ body {
 }
 
 .count-badge {
-    color: #7a7063;
+    color: #f5efe6;
     font-size: 0.85rem;
     display: block;
     margin-bottom: 20px;
@@ -117,13 +117,13 @@ body {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    border: 1px solid #3d3328;
+    border: 1px solid #f8c301;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
     font-size: 0.85rem;
-    color: #d1c7bd;
+    color: #f8c301;
 }
 
 .client-info h3 {
@@ -135,7 +135,7 @@ body {
 .client-meta {
     margin: 3px 0 0 0;
     font-size: 0.8rem;
-    color: #7a7063;
+    color: #f5efe6;
 }
 
 /* Form Styles */
@@ -155,7 +155,7 @@ body {
 .form-group label {
     font-size: 0.75rem;
     font-weight: 700;
-    color: #7a7063;
+    color: #f5efe6;
     letter-spacing: 1px;
 }
 
@@ -174,7 +174,7 @@ body {
 }
 
 .btn-submit {
-    background-color: #c98038;
+    background-color: #f8c301;
     color: #100d0a;
     border: none;
     border-radius: 6px;
@@ -204,7 +204,7 @@ footer {
     align-items: center;
     gap: 15px;
     padding: 16px 0;
-    border-bottom: 1px solid #211a14;
+    border-bottom: 1px solid #f8c301;
 }
 
 .client-info {
@@ -220,7 +220,7 @@ footer {
 .btn-delete {
     background: transparent;
     border: none;
-    color: #7a7063;
+    color: #f5efe6;
     cursor: pointer;
     padding: 8px;
     border-radius: 6px;
@@ -231,6 +231,6 @@ footer {
 }
 
 .btn-delete:hover {
-    color: #e55353;
-    background-color: rgba(229, 83, 83, 0.1);
+    color: #fc0303;
+    background-color: rgba(240, 239, 234, 0.1);
 }
