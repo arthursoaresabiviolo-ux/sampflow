@@ -11,3 +11,40 @@ function switchTab(event, tabId) {
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
+
+// Back to Top Button Functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    if (!backToTopBtn) return;
+
+    const checkScroll = (scrollTop) => {
+        if (scrollTop > 50) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    };
+
+    window.addEventListener('scroll', () => {
+        checkScroll(window.scrollY || document.documentElement.scrollTop);
+    });
+
+    document.addEventListener('scroll', (e) => {
+        if (e.target.scrollTop !== undefined) {
+            checkScroll(e.target.scrollTop);
+        }
+    }, true);
+
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        const activeTab = document.querySelector('.tab-content.active');
+        if (activeTab) {
+            activeTab.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+});
