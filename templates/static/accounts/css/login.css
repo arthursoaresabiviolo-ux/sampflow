@@ -1,3 +1,192 @@
-h1{
-    color :rgb(44, 44, 150)
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f7f9;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+/* Container principal centralizado */
+.login-wrapper {
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+/* Cabeçalho superior */
+.login-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.login-header h1 {
+    color: #005696;
+    font-family: Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    color: #555555;
+    font-size: 0.95rem;
+}
+
+/* Card azul do formulário */
+.login-card {
+    background-color: #005696;
+    width: 100%;
+    padding: 32px 28px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 86, 150, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Inputs escuros estilo dashboard */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    background-color: #111111;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 12px 14px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: #777777;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #ffc800;
+    box-shadow: 0 0 0 2px rgba(255, 200, 0, 0.2);
+}
+
+/* Container do input de senha com ícone */
+.input-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-password-wrapper input {
+    padding-right: 40px;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #aaaaaa;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+#togglePassword:hover {
+    color: #ffc800;
+}
+
+/* Botão amarelo amigável */
+.btn-submit {
+    background-color: #ffc800;
+    color: #000000;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.8px;
+    border: none;
+    border-radius: 6px;
+    padding: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 4px;
+}
+
+.btn-submit:hover {
+    background-color: #e6b400;
+}
+
+.btn-submit:active {
+    transform: scale(0.99);
+}
+
+/* Link de recuperação */
+.forgot-password-text {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555555;
+}
+
+.forgot-password-text a {
+    color: #005696;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.forgot-password-text a:hover {
+    text-decoration: underline;
+    color: #003d6b;
+}
+
+/* Rodapé fixado na parte inferior */
+footer {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #888888;
+    width: 100%;
+}
+
+/* Sobrescreve o estilo padrão de autofill dos navegadores */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #111111 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
 }
