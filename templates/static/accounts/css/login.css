@@ -17,7 +17,7 @@ body {
     position: relative;
 }
 
-/* Container principal centralizado */
+/* Centered main container */
 .login-wrapper {
     width: 100%;
     max-width: 440px;
@@ -27,7 +27,7 @@ body {
     margin: auto;
 }
 
-/* Cabeçalho superior */
+/* Top header */
 .login-header {
     text-align: center;
     margin-bottom: 24px;
@@ -54,7 +54,7 @@ body {
     margin: 0 auto;
 }
 
-/* Card azul do formulário */
+/* Blue form card */
 .login-card {
     background-color: #005696;
     width: 100%;
@@ -79,7 +79,7 @@ label {
     letter-spacing: 0.5px;
 }
 
-/* Inputs escuros estilo dashboard */
+/* Dark dashboard-style inputs */
 input[type="email"],
 input[type="password"],
 input[type="text"] {
@@ -105,7 +105,7 @@ input[type="password"]:focus {
     box-shadow: 0 0 0 2px rgba(255, 200, 0, 0.2);
 }
 
-/* Container do input de senha com ícone */
+/* Password input container with icon */
 .input-password-wrapper {
     position: relative;
     display: flex;
@@ -136,7 +136,7 @@ input[type="password"]:focus {
     color: #ffc800;
 }
 
-/* Botão amarelo amigável */
+/* Friendly yellow button */
 .btn-submit {
     background-color: #ffc800;
     color: #000000;
@@ -159,7 +159,7 @@ input[type="password"]:focus {
     transform: scale(0.99);
 }
 
-/* Link de recuperação */
+/* Recovery link */
 .forgot-password-text {
     margin-top: 20px;
     text-align: center;
@@ -178,7 +178,7 @@ input[type="password"]:focus {
     color: #003d6b;
 }
 
-/* Rodapé fixado na parte inferior */
+/* Footer fixed at the bottom */
 footer {
     position: absolute;
     bottom: 20px;
@@ -188,7 +188,7 @@ footer {
     width: 100%;
 }
 
-/* Sobrescreve o estilo padrão de autofill dos navegadores */
+/* Overrides the browser's default autofill style */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
