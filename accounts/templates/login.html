@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SampFlow - Login</title>
-    <link rel="stylesheet" href="static/accounts/css/login.css">
+    <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,9 +36,9 @@
             </div>
 
             <button type="submit" class="btn-submit">ENTRAR</button>
+            <p class="forgot-password-text">Esqueceu sua senha? <a href="{% url 'forgot_password' %}">Clique aqui</a> para recuperá-la.</p>
         </form>
 
-        <p class="forgot-password-text">Esqueceu sua senha? <a href="{% url 'forgot_password' %}">Clique aqui</a> para recuperá-la.</p>
     </main>
 
     <footer>
