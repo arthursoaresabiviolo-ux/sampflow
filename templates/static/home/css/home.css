@@ -1,5 +1,10 @@
 /* Base Styles */
 body {
+    background-image: url('../img/login_background_image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-color: #fffefd;
     color: #d1c7bd;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
