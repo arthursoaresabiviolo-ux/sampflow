@@ -9,9 +9,12 @@ def home(request):
 def create_client(request):
     if request.method == 'POST':
         name = request.POST.get('name')
+        address = request.POST.get('address')
         country = request.POST.get('country')
-        if name and country:
-            Client.objects.create(name=name, country=country)
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        if name and country and address:
+            Client.objects.create(name=name, address=address, country=country, email=email, phone=phone)
     return redirect('home')
 
 def delete_client(request, client_id):
