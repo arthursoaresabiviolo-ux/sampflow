@@ -118,6 +118,16 @@
                         <input type="text" id="address" name="address" placeholder="ex: 123 Main Street" required>
                     </div>
 
+                    <div class="form-group">
+                        <label for="email">EMAIL </label>
+                        <input type="email" id="email" name="email" placeholder="ex: tokyo@specialtycoffee.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">TELEFONE </label>
+                        <input type="tel" id="phone" name="phone" placeholder="ex: +81 3 1234-5678" pattern="^[0-9+\s()-]+$" oninput="this.value = this.value.replace(/[^0-9+\s()-]/g, '')">
+                    </div>
+
                     <button type="submit" class="btn-submit">REGISTRAR CLIENTE</button>
                 </form>
             </div>
