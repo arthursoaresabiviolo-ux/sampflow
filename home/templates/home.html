@@ -76,7 +76,10 @@
                             </div>
                             <div class="client-info">
                                 <h3>{{ client.name }}</h3>
-                                <p class="client-meta">{{ client.country }}</p>
+                                <p class="client-meta">Endereço: {{ client.address }}</p>
+                                <p class="client-meta">País: {{ client.country }}</p>
+                                <p class="client-meta">Email: {{ client.email|default:"Não informado" }}</p>
+                                <p class="client-meta">Telefone: {{ client.phone|default:"Não informado" }}</p>
                             </div>
 
                             <!-- Delete Button Form -->
@@ -109,13 +112,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="country">PAÍS *</label>
-                        <input type="text" id="country" name="country" placeholder="ex: Japão" required>
+                        <label for="address">ENDEREÇO *</label>
+                        <input type="text" id="address" name="address" placeholder="ex: 123 Main Street" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="address">ENDEREÇO *</label>
-                        <input type="text" id="address" name="address" placeholder="ex: 123 Main Street" required>
+                        <label for="country">PAÍS *</label>
+                        <input type="text" id="country" name="country" placeholder="ex: Japão" required>
                     </div>
 
                     <div class="form-group">
