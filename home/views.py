@@ -22,3 +22,17 @@ def delete_client(request, client_id):
         client = get_object_or_404(Client, id=client_id)
         client.delete()
         return redirect('home')
+
+def edit_client(request, client_id):
+    client = get_object_or_404(Client, id=client_id)
+    
+    if request.method == 'POST':
+        client.name = request.POST.get('name')
+        client.address = request.POST.get('address')
+        client.country = request.POST.get('country')
+        client.email = request.POST.get('email')
+        client.phone = request.POST.get('phone')
+        client.save()
+        return redirect('home')
+
+    return redirect('home')
