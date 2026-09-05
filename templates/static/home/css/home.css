@@ -171,6 +171,18 @@ body {
     border-color: #e5a855;
 }
 
+/* Overrides the browser's default autofill style */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover, 
+.form-group input:-webkit-autofill:focus, 
+.form-group input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #111111 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 .btn-submit {
     background-color: #f8c301;
     color: #100d0a;
@@ -213,6 +225,28 @@ footer {
 .delete-form {
     margin: 0;
     padding: 0;
+}
+
+.client-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-edit {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.btn-edit:hover {
+  opacity: 0.7;
 }
 
 .btn-delete {
