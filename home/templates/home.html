@@ -118,7 +118,7 @@
             
             <form id="client-form" method="POST" action="{% url 'create_client' %}" class="client-form"> {% csrf_token %}
                 
-                <!-- Field hidden para identificar se estamos criando ou editando -->
+                <!-- Field hidden to identify if we are creating or editing -->
                 <input type="hidden" id="client-id" name="client_id" value="">
 
                 <div class="form-group">
