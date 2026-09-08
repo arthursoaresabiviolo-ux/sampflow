@@ -33,7 +33,7 @@ body {
 
 .header-left h1 { margin: 0; font-size: 30px; color: #fff; font-family: 'Georgia', serif; }
 .header-left h1 span { color: #ffc107; }
-.header-left .subtitle { color: #ffffff; font-size: 13px; margin-top: 4px; }
+.header-left .subtitle { color: #ffffff; font-size: 15px; margin-top: 4px; }
 
 .user-card {
     display: flex;
