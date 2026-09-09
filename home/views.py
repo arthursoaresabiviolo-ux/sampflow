@@ -1,3 +1,4 @@
+from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Client
 
@@ -36,3 +37,38 @@ def edit_client(request, client_id):
         return redirect('home')
 
     return redirect('home')
+
+def create_sample(request):
+    if request.method == "POST":
+        client_id = request.POST.get("client")
+        client_instance = get_object_or_404(Client, id=client_id)
+        contract_ref = request.POST.get("contract_ref")
+        sample_type = request.POST.get("type")
+        status = request.POST.get("status")
+        weight = request.POST.get("weight")
+        shipment_cust = request.POST.get("shipment_cust")
+        shipment_date = request.POST.get("shipment_date")
+        shipment_delivery = request.POST.get("shipment_delivery")
+        tracking_number = request.POST.get("tracking_number")
+        correir = request.POST.get("correir")
+        comments = request.POST.get("comments")
+        sample_image = request.FILES.get("sample_image")
+
+        Sample.objects.create(
+            contract_ref=contract_ref,
+            client=client_instance,
+            type=sample_type,
+            status=status,
+            weight=weight,
+            shipment_cust=shipment_cust,
+            shipment_date=shipment_date,
+            shipment_delivery=shipment_delivery,
+            tracking_number=tracking_number,
+            sample_image=sample_image,
+            correir=correir,
+            comments=comments,
+        )
+
+        return redirect("home")
+
+    return redirect("home")
