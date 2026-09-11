@@ -50,7 +50,7 @@ def create_sample(request):
         shipment_date = request.POST.get("shipment_date")
         shipment_delivery = request.POST.get("shipment_delivery")
         tracking_number = request.POST.get("tracking_number")
-        correir = request.POST.get("correir")
+        courier = request.POST.get("courier")
         comments = request.POST.get("comments")
         sample_image = request.FILES.get("sample_image")
 
@@ -65,7 +65,7 @@ def create_sample(request):
             shipment_delivery=shipment_delivery,
             tracking_number=tracking_number,
             sample_image=sample_image,
-            correir=correir,
+            courier=courier,
             comments=comments,
         )
 
