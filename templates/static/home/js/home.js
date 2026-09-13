@@ -48,3 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 });
+
+function openSampleModal() {
+    document.getElementById('sampleModal').style.display = 'flex';
+}
+
+function closeSampleModal() {
+    document.getElementById('sampleModal').style.display = 'none';
+}
+
+// Closes the modal when clicking outside the area
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('sampleModal');
+    if (event.target === modal) {
+        closeSampleModal();
+    }
+});
