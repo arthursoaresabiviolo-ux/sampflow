@@ -1,11 +1,12 @@
-from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Client
+from django.utils.dateparse import parse_date
+from .models import Client, Sample
 
 def home(request):
     if request.method == 'GET':
         clients = Client.objects.all()
-        return render(request, 'home.html', {'clients': clients})
+        samples = Sample.objects.all().order_by('-created_at')
+        return render(request, 'home.html', {'clients': clients, 'samples': samples})
 
 def create_client(request):
     if request.method == 'POST':
@@ -42,31 +43,43 @@ def create_sample(request):
     if request.method == "POST":
         client_id = request.POST.get("client")
         client_instance = get_object_or_404(Client, id=client_id)
-        contract_ref = request.POST.get("contract_ref")
-        sample_type = request.POST.get("type")
+        contract_ref = request.POST.get("contract", "").strip()
+        contract_month = request.POST.get("reference_month", "").strip()
+        sample_type = request.POST.get("sample_type", "").strip()
         status = request.POST.get("status")
         weight = request.POST.get("weight")
-        shipment_cust = request.POST.get("shipment_cust")
-        shipment_date = request.POST.get("shipment_date")
-        shipment_delivery = request.POST.get("shipment_delivery")
-        tracking_number = request.POST.get("tracking_number")
-        courier = request.POST.get("courier")
-        comments = request.POST.get("comments")
+        shipment_cust = request.POST.get("roaster", "").strip()
+        fiscal_number = request.POST.get("fiscal_number", "").strip()
+        shipping_date = parse_date(request.POST.get("shipping_date", ""))
+        delivery_date = parse_date(request.POST.get("delivery_date", ""))
+        tracking_number = request.POST.get("tracking_number", "").strip()
+        courier = request.POST.get("courier", "").strip()
+        screen_size = request.POST.get("screen_size", "").strip()
+        cupping = request.POST.get("cupping", "").strip()
         sample_image = request.FILES.get("sample_image")
+        comments = (
+            f"Origem: {request.POST.get('origin', '').strip()} | "
+            f"Mês de referência: {request.POST.get('reference_month', '').strip()} | "
+            f"Peneira: {request.POST.get('screen_size', '').strip()}"
+        )
 
         Sample.objects.create(
-            contract_ref=contract_ref,
             client=client_instance,
-            type=sample_type,
+            contract_ref=contract_ref,
+            contract_month=contract_month,
+            sample_type=sample_type,
             status=status,
             weight=weight,
             shipment_cust=shipment_cust,
-            shipment_date=shipment_date,
-            shipment_delivery=shipment_delivery,
+            fiscal_number=fiscal_number,
+            shipping_date=shipping_date,
+            delivery_date=delivery_date,
             tracking_number=tracking_number,
-            sample_image=sample_image,
             courier=courier,
+            screen_size=screen_size,
+            cupping=cupping,
             comments=comments,
+            sample_image=sample_image
         )
 
         return redirect("home")
