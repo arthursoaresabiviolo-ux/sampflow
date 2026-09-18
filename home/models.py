@@ -24,6 +24,8 @@ class Sample(models.Model):
     delivery_date = models.DateField(blank=True, null=True)
     tracking_number = models.CharField(max_length=100, blank=True, null=True)
     courier = models.CharField(max_length=100, blank=True, null=True)
+    screen_size = models.CharField(max_length=100, blank=True, null=True)
+    cupping = models.CharField(max_length=100, blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
     sample_image = models.ImageField(upload_to='sample_images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
