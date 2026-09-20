@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SampFlow</title>
     <link rel="stylesheet" href="/static/home/css/home.css">
+    <link rel="stylesheet" href="/static/home/css/samples.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -35,8 +36,165 @@
     <div class="tabs-divider"></div>
 
     <section id="samples-tab" class="tab-content">
-        <div class="card-panel"><h2>Amostras</h2></div>
+        <!-- Tab Header with Add Button (+) -->
+        <div class="card-panel header-panel">
+            <h2>Amostras</h2>
+            <button class="add-sample-btn" onclick="openSampleModal()" title="Cadastrar Nova Amostra">
+                <span class="plus-icon">+</span>
+            </button>
+        </div>
+
+        <!-- Container where the samples will be displayed in blocks/cards -->
+        <div class="samples-grid">
+            {% for sample in samples %}
+                <div class="sample-card">
+                    <div class="sample-card-header">
+                        <span class="contract-tag">{{ sample.contract_ref|default:"Sem contrato" }}</span>
+                        <span class="status-badge status-{{ sample.status|lower }}">{{ sample.status }}</span>
+                    </div>
+                    <div class="sample-card-body">
+                        <h3>{{ sample.name }}</h3>
+                        <p><strong>Cliente:</strong> {{ sample.client.name }}</p>
+                        <p><strong>Destino:</strong> {{ sample.shipment_delivery|default:"Não informado" }}</p>
+                        <p><strong>Processo:</strong> {{ sample.sample_type|default:"Não informado" }}</p>
+                        <p><strong>Torrefador:</strong> {{ sample.shipment_cust|default:"Não informado" }}</p>
+                        <p>{{ sample.comments }}</p>
+                    </div>
+                    <div class="sample-card-footer">
+                        <span>Recebimento: {{ sample.shipment_date|date:"d/m/Y"|default:"Não informado" }}</span>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="no-samples">
+                    <p>Nenhuma amostra cadastrada até o momento.</p>
+                </div>
+            {% endfor %}
+        </div>
     </section>
+
+    <!-- New Sample Registration Modal / Pop-up -->
+    <div id="sampleModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2>Cadastrar Nova Amostra</h2>
+                    <p class="modal-subtitle">Campos marcados com * são obrigatórios</p>
+                </div>
+                <button class="close-modal-btn" onclick="closeSampleModal()">&times;</button>
+            </div>
+
+            <form action="{% url 'create_sample' %}" method="POST" class="sample-form"> {% csrf_token %}
+
+                <div class="sample-form-group full-width">
+                    <label for="client">CLIENTE *</label>
+                    <select id="client" name="client" required>
+                        <option value="" disabled selected>Selecione um cliente...</option>
+                        {% for client in clients %}
+                            <option value="{{ client.id }}">{{ client.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="contract">CONTRATO *</label>
+                        <input type="text" id="contract" name="contract" placeholder="CONT-2026-000" required>
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="reference-month">MÊS DO CONTRATO *</label>
+                        <input type="month" id="reference-month" name="reference_month" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="sample-type">TIPO DE AMOSTRA *</label>
+                        <select id="sample-type" name="sample_type" required>
+                            <option value="Pendente" selected>Pré embarque</option>
+                            <option value="Em Trânsito">Embarque</option>
+                            <option value="Concluído">Amostra Comercial</option>
+                        </select>
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="status">STATUS *</label>
+                        <select id="status" name="status" required>
+                            <option value="Pendente" selected>Pendente</option>
+                            <option value="Aguardando coleta">Aguardando coleta</option>
+                            <option value="Em Trânsito">Em Trânsito</option>
+                            <option value="Concluído">Concluído</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="weight">PESO *</label>
+                        <input type="number" id="weight" name="weight" placeholder="ex: 10" required>
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="shipment-cost">VALOR DE ENVIO *</label>
+                        <input type="number" id="shipment-cost" name="shipment_cost" placeholder="ex: 100.00" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="fiscal-number">NOTA FISCAL *</label>
+                        <input type="text" id="fiscal-number" name="fiscal_number" placeholder="Número da nota fiscal" required>
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="shipping-date">DATA DE ENVIO *</label>
+                        <input type="date" id="shipping-date" name="shipping_date" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="delivery-date">DATA DE ENTREGA *</label>
+                        <input type="date" id="delivery-date" name="delivery_date" required>
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="tracking-number">NÚMERO DE RASTREIO *</label>
+                        <input type="text" id="tracking-number" name="tracking_number" placeholder="Número de rastreio" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="courier">TRANSPORTADORA *</label>
+                        <input type="text" id="courier" name="courier" placeholder="Nome da transportadora" required>
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="screen-size">PENEIRA *</label>
+                        <input type="text" id="screen-size" name="screen_size" placeholder="Tamanho da peneira" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="cupping">CUPPING *</label>
+                        <input type="text" id="cupping" name="cupping" placeholder="Resultado do cupping" required>
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="sample-image">FOTO DA AMOSTRA *</label>
+                        <input type="file" id="sample-image" name="sample_image" accept="image/*" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="comments">COMENTÁRIOS *</label>
+                        <input type="text" id="comments" name="comments" placeholder="Observações adicionais..." required>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeSampleModal()">Cancelar</button>
+                    <button type="submit" class="btn-submit">Salvar Amostra</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <section id="dashboards-tab" class="tab-content">
         <div class="card-panel"><h2>Dashboards</h2></div>
@@ -89,37 +247,37 @@
             <div class="card-panel client-form-panel">
                 <h2 id="form-title">Novo Cliente</h2>
                 
-                <form id="client-form" method="POST" action="{% url 'create_client' %}" class="client-form"> 
+                <form id="client-form" method="POST" action="{% url 'create_client' %}" class="client-form">
                     {% csrf_token %}
                     <input type="hidden" id="client-id" name="client_id" value="">
 
-                    <div class="form-group">
+                    <div class="client-form-group">
                         <label for="name">NOME DA EMPRESA *</label>
                         <input type="text" id="name" name="name" placeholder="ex: Tokyo Specialty Coffee" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="client-form-group">
                         <label for="address">ENDEREÇO *</label>
                         <input type="text" id="address" name="address" placeholder="ex: 123 Main Street" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="client-form-group">
                         <label for="country">PAÍS *</label>
                         <input type="text" id="country" name="country" placeholder="ex: Japão" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="client-form-group">
                         <label for="email">EMAIL </label>
                         <input type="email" id="email" name="email" placeholder="ex: tokyo@specialtycoffee.com">
                     </div>
 
-                    <div class="form-group">
+                    <div class="client-form-group">
                         <label for="phone">TELEFONE </label>
                         <input type="tel" id="phone" name="phone" placeholder="ex: +81 3 1234-5678" pattern="^[0-9+\s()-]+$" oninput="this.value = this.value.replace(/[^0-9+\s()-]/g, '')">
                     </div>
 
-                    <button type="submit" id="btn-submit" class="btn-submit">REGISTRAR CLIENTE</button>
-                    <button type="button" id="btn-cancel" class="btn-submit btn-cancel" style="display: none;" onclick="resetForm()">CANCELAR</button>
+                    <button type="submit" id="btn-submit" class="btn-client-submit">REGISTRAR CLIENTE</button>
+                    <button type="button" id="btn-cancel" class="btn-client-submit btn-client-cancel" style="display: none;" onclick="resetForm()">CANCELAR</button>
                 </form>
             </div>
         </div>
