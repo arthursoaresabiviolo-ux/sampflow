@@ -53,15 +53,15 @@
                         <span class="status-badge status-{{ sample.status|lower }}">{{ sample.status }}</span>
                     </div>
                     <div class="sample-card-body">
-                        <h3>{{ sample.name }}</h3>
                         <p><strong>Cliente:</strong> {{ sample.client.name }}</p>
-                        <p><strong>Destino:</strong> {{ sample.shipment_delivery|default:"Não informado" }}</p>
-                        <p><strong>Processo:</strong> {{ sample.sample_type|default:"Não informado" }}</p>
-                        <p><strong>Torrefador:</strong> {{ sample.shipment_cust|default:"Não informado" }}</p>
-                        <p>{{ sample.comments }}</p>
+                        <p><strong>Código de Rastreio:</strong> {{ sample.tracking_number|default:"Não informado" }}</p>
+                        <p><strong>Transportadora:</strong> {{ sample.courier|default:"Não informado" }}</p>
+                        <p><strong>Tipo Amostra:</strong> {{ sample.sample_type|default:"Não informado" }}</p>
+                        <p><strong>Valor de Envio:</strong> {{ sample.shipment_cust|default:"Não informado" }}</p>
                     </div>
                     <div class="sample-card-footer">
-                        <span>Recebimento: {{ sample.shipment_date|date:"d/m/Y"|default:"Não informado" }}</span>
+                        <span>Data de envio: {{ sample.shipping_date|date:"d/m/Y"|default:"Não informado" }}</span>
+                        <span>Data de entrega: {{ sample.delivery_date|date:"d/m/Y"|default:"A ser informada" }}</span>
                     </div>
                 </div>
             {% empty %}
