@@ -18,7 +18,7 @@ class Sample(models.Model):
     sample_type = models.CharField(max_length=100, blank=True, null=True)
     status = models.CharField(max_length=100, blank=True, null=True)
     weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    shipment_cust = models.CharField(max_length=100, blank=True, null=True)
+    shipment_cost = models.CharField(max_length=100, blank=True, null=True)
     fiscal_number = models.CharField(max_length=100, blank=True, null=True)
     shipping_date = models.DateField(blank=True, null=True)
     delivery_date = models.DateField(blank=True, null=True)
