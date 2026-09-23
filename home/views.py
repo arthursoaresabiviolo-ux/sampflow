@@ -48,7 +48,7 @@ def create_sample(request):
         sample_type = request.POST.get("sample_type", "").strip()
         status = request.POST.get("status")
         weight = request.POST.get("weight")
-        shipment_cust = request.POST.get("roaster", "").strip()
+        shipment_cost = request.POST.get("shipment_cost", "").strip()
         fiscal_number = request.POST.get("fiscal_number", "").strip()
         shipping_date = parse_date(request.POST.get("shipping_date", ""))
         delivery_date = parse_date(request.POST.get("delivery_date", ""))
@@ -70,7 +70,7 @@ def create_sample(request):
             sample_type=sample_type,
             status=status,
             weight=weight,
-            shipment_cust=shipment_cust,
+            shipment_cost=shipment_cost,
             fiscal_number=fiscal_number,
             shipping_date=shipping_date,
             delivery_date=delivery_date,
