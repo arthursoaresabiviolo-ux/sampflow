@@ -57,7 +57,7 @@
                         <p><strong>Código de Rastreio:</strong> {{ sample.tracking_number|default:"Não informado" }}</p>
                         <p><strong>Transportadora:</strong> {{ sample.courier|default:"Não informado" }}</p>
                         <p><strong>Tipo Amostra:</strong> {{ sample.sample_type|default:"Não informado" }}</p>
-                        <p><strong>Valor de Envio:</strong> {{ sample.shipment_cust|default:"Não informado" }}</p>
+                        <p><strong>Valor de Envio:</strong> {{ sample.shipment_cost|default:"Não informado" }}</p>
                     </div>
                     <div class="sample-card-footer">
                         <span>Data de envio: {{ sample.shipping_date|date:"d/m/Y"|default:"Não informado" }}</span>
@@ -101,8 +101,8 @@
                         <input type="text" id="contract" name="contract" placeholder="CONT-2026-000" required>
                     </div>
                     <div class="sample-form-group">
-                        <label for="reference-month">MÊS DO CONTRATO *</label>
-                        <input type="month" id="reference-month" name="reference_month" required>
+                        <label for="reference-month">MÊS DO CONTRATO</label>
+                        <input type="month" id="reference-month" name="reference_month">
                     </div>
                 </div>
                 
@@ -110,9 +110,9 @@
                     <div class="sample-form-group">
                         <label for="sample-type">TIPO DE AMOSTRA *</label>
                         <select id="sample-type" name="sample_type" required>
-                            <option value="Pendente" selected>Pré embarque</option>
-                            <option value="Em Trânsito">Embarque</option>
-                            <option value="Concluído">Amostra Comercial</option>
+                            <option value="Pré embarque" selected>Pré Embarque</option>
+                            <option value="Embarque">Embarque</option>
+                            <option value="Amostra Comercial">Amostra Comercial</option>
                         </select>
                     </div>
                     <div class="sample-form-group">
@@ -129,62 +129,67 @@
                 <div class="form-row">
                     <div class="sample-form-group">
                         <label for="weight">PESO *</label>
-                        <input type="number" id="weight" name="weight" placeholder="ex: 10" required>
+                        <input type="number" id="weight" name="weight" placeholder="ex: 0,5g" required>
                     </div>
                     <div class="sample-form-group">
-                        <label for="shipment-cost">VALOR DE ENVIO *</label>
-                        <input type="number" id="shipment-cost" name="shipment_cost" placeholder="ex: 100.00" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="sample-form-group">
-                        <label for="fiscal-number">NOTA FISCAL *</label>
-                        <input type="text" id="fiscal-number" name="fiscal_number" placeholder="Número da nota fiscal" required>
-                    </div>
-                    <div class="sample-form-group">
-                        <label for="shipping-date">DATA DE ENVIO *</label>
-                        <input type="date" id="shipping-date" name="shipping_date" required>
+                        <label for="shipment-cost">VALOR DE ENVIO</label>
+                        <input type="number" id="shipment-cost" name="shipment_cost" placeholder="ex: R$ 100,00">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="sample-form-group">
-                        <label for="delivery-date">DATA DE ENTREGA *</label>
-                        <input type="date" id="delivery-date" name="delivery_date" required>
+                        <label for="fiscal-number">NOTA FISCAL</label>
+                        <input type="text" id="fiscal-number" name="fiscal_number" placeholder="Número da nota fiscal">
                     </div>
                     <div class="sample-form-group">
-                        <label for="tracking-number">NÚMERO DE RASTREIO *</label>
-                        <input type="text" id="tracking-number" name="tracking_number" placeholder="Número de rastreio" required>
+                        <label for="shipping-date">DATA DE ENVIO</label>
+                        <input type="date" id="shipping-date" name="shipping_date">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="delivery-date">DATA DE ENTREGA</label>
+                        <input type="date" id="delivery-date" name="delivery_date">
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="tracking-number">NÚMERO DE RASTREIO</label>
+                        <input type="text" id="tracking-number" name="tracking_number" placeholder="Número de rastreio">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="sample-form-group">
                         <label for="courier">TRANSPORTADORA *</label>
-                        <input type="text" id="courier" name="courier" placeholder="Nome da transportadora" required>
+                        <select id="courier" name="courier" required>
+                            <option value="Fedex" selected>FedEx</option>
+                            <option value="Correios">Correios</option>
+                            <option value="Dhl">DHL</option>
+                            <option value="Ups">UPS</option>
+                        </select>
                     </div>
                     <div class="sample-form-group">
-                        <label for="screen-size">PENEIRA *</label>
-                        <input type="text" id="screen-size" name="screen_size" placeholder="Tamanho da peneira" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="sample-form-group">
-                        <label for="cupping">CUPPING *</label>
-                        <input type="text" id="cupping" name="cupping" placeholder="Resultado do cupping" required>
-                    </div>
-                    <div class="sample-form-group">
-                        <label for="sample-image">FOTO DA AMOSTRA *</label>
-                        <input type="file" id="sample-image" name="sample_image" accept="image/*" required>
+                        <label for="screen-size">PENEIRA</label>
+                        <input type="text" id="screen-size" name="screen_size" placeholder="Tamanho da peneira">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="sample-form-group">
-                        <label for="comments">COMENTÁRIOS *</label>
-                        <input type="text" id="comments" name="comments" placeholder="Observações adicionais..." required>
+                        <label for="cupping">CUPPING</label>
+                        <input type="text" id="cupping" name="cupping" placeholder="Resultado do cupping">
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="sample-image">FOTO DA AMOSTRA</label>
+                        <input type="file" id="sample-image" name="sample_image" accept="image/*">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="sample-form-group">
+                        <label for="comments">COMENTÁRIOS</label>
+                        <input type="text" id="comments" name="comments" placeholder="Observações adicionais...">
                     </div>
                 </div>
 
