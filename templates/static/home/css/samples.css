@@ -75,7 +75,7 @@
 .status-pendente { background-color: #df8a1b; color: #fff; }
 .status-em\ trânsito { background-color: #3621ac; color: #fff; }
 .status-concluído { background-color: #48b608; color: #fff; }
-.status-aguardando/ coleta { background-color: #d362e2; color: #fff; }  
+.status-aguardando\ coleta { background-color: #d362e2; color: #fff; }  
 
 .sample-card-body h3 {
     margin: 0 0 10px 0;
