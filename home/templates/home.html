@@ -50,7 +50,7 @@
                 <div class="sample-card">
                     <div class="sample-card-header">
                         <span class="contract-tag">{{ sample.contract_ref|default:"Sem contrato" }}</span>
-                        <span class="status-badge status-{{ sample.status|lower }}">{{ sample.status }}</span>
+                        <span class="status-badge status-{{ sample.status|slugify }}">{{ sample.status }}</span>
                     </div>
                     <div class="sample-card-body">
                         <p><strong>Cliente:</strong> {{ sample.client.name }}</p>
