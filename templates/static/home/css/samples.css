@@ -72,8 +72,8 @@
     font-weight: bold;
 }
 
-.status-pendente { background-color: #df8a1b; color: #fff; }
-.status-em-transito { background-color: #3621ac; color: #fff; }
+.status-pendente { background-color: #e25f13; color: #fff; }
+.status-em-transito { background-color: #0e1bd3; color: #fff; }
 .status-concluido { background-color: #48b608; color: #fff; }
 .status-aguardando-coleta { background-color: #d362e2; color: #fff; }
 
