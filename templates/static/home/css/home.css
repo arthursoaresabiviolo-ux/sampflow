@@ -13,7 +13,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #005a9c;
+    background-color: #0d1b2a;
     padding: 24px 30px;
     border-radius: 16px;
     border: 1px solid #000;
@@ -80,13 +80,13 @@ body {
     content: ''; position: absolute; bottom: 0; left: 0;
     width: 100%; height: 2px; background-color: #e5a855;
 }
-.tabs-divider { border-bottom: 1px solid #005ba0; margin-bottom: 25px; }
+.tabs-divider { border-bottom: 1px solid #0d1b2a; margin-bottom: 25px; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
 /* Layout & Cards */
 .clients-layout { display: grid; grid-template-columns: 1fr 380px; gap: 25px; }
-.card-panel { background-color: #005ba0; border: 1px solid #26201a; border-radius: 12px; padding: 24px; }
+.card-panel { background-color: #0d1b2a; border: 1px solid #26201a; border-radius: 12px; padding: 24px; }
 .card-panel h2 { font-family: 'Georgia', serif; color: #f5efe6; margin: 0 0 4px 0; font-size: 1.4rem; }
 .count-badge { color: #f5efe6; font-size: 0.85rem; display: block; margin-bottom: 20px; }
 
@@ -140,7 +140,7 @@ body {
 #back-to-top {
     position: fixed; bottom: 30px; right: 30px;
     width: 45px; height: 45px; border-radius: 50%;
-    background-color: #f1c40f; color: #004d80; border: none;
+    background-color: #f1c40f; color: #0d1b2a; border: none;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     opacity: 0; visibility: hidden; transition: 0.3s; z-index: 9999;
 }
