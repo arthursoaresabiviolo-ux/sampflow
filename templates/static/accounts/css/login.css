@@ -39,7 +39,7 @@ body {
 }
 
 .login-header h1 {
-    color: #005696;
+    color: #000000;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 3.6rem;
     font-weight: 800;
@@ -60,7 +60,7 @@ body {
 
 /* Blue form card */
 .login-card {
-    background-color: #005696;
+    background-color: #0d1b2a;
     width: 100%;
     padding: 32px 28px;
     border-radius: 12px;
@@ -168,7 +168,7 @@ input[type="password"]:focus {
     margin-top: 20px;
     text-align: center;
     font-size: 0.9rem;
-    color: #000000;
+    color: #ffffff;
 }
 
 .forgot-password-text a {
