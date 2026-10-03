@@ -69,10 +69,10 @@ body {
 .btn-logout:hover { background-color: #d9383a; color: #fff; }
 
 /* Tabs */
-.tabs-navigation { display: flex; gap: 30px; margin-top: 30px; }
+.tabs-navigation { display: flex; gap: 30px; margin-top: 30px; justify-content: center; }
 .tab-btn {
     background: none; border: none;
-    color: #005ba0; font-weight: 700; font-size: 0.85rem;
+    color: #0d1b2a; font-weight: 700; font-size: 0.95rem;
     letter-spacing: 1.5px; padding-bottom: 12px; cursor: pointer; position: relative;
 }
 .tab-btn.active { color: #e5a855; }
