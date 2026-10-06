@@ -97,6 +97,12 @@
     color: #778da9;
 }
 
+.sample-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
 /* --- Registration Modal / Pop-up --- */
 .modal-overlay {
     display: none;
