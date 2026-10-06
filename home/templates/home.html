@@ -63,6 +63,14 @@
                         <span>Data de envio: {{ sample.shipping_date|date:"d/m/Y"|default:"Não informado" }}</span><br>
                         <span>Data de entrega: {{ sample.delivery_date|date:"d/m/Y"|default:"A ser informada" }}</span>
                     </div>
+                    <div class="sample-actions">
+                        <form method="POST" action="{% url 'delete_sample' sample.id %}" onsubmit="return confirm('Excluir a amostra {% if sample.contract_ref %}{{ sample.contract_ref }}{% else %}sem contrato{% endif %}?');" class="delete-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-delete" title="Excluir amostra" aria-label="Excluir amostra">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             {% empty %}
                 <div class="no-samples">
