@@ -85,3 +85,10 @@ def create_sample(request):
         return redirect("home")
 
     return redirect("home")
+
+
+def delete_sample(request, sample_id):
+    if request.method == 'POST':
+        sample = get_object_or_404(Sample, id=sample_id)
+        sample.delete()
+    return redirect('home')
