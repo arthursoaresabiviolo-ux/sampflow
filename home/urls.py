@@ -7,6 +7,6 @@ urlpatterns = [
     path('client/delete/<int:client_id>/', views.delete_client, name='delete_client'),
     path('client/edit/<int:client_id>/', views.edit_client, name='edit_client'),
     path('sample/create/', views.create_sample, name='create_sample'),
+    path('sample/edit/<int:sample_id>/', views.edit_sample, name='edit_sample'),
     path('sample/delete/<int:sample_id>/', views.delete_sample, name='delete_sample'),
-    #path('sample/edit/<int:sample_id>/', views.edit_sample, name='edit_sample'),
 ]
