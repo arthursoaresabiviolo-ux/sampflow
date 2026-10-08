@@ -57,11 +57,7 @@ def create_sample(request):
         screen_size = request.POST.get("screen_size", "").strip()
         cupping = request.POST.get("cupping", "").strip()
         sample_image = request.FILES.get("sample_image")
-        comments = (
-            f"Origem: {request.POST.get('origin', '').strip()} | "
-            f"Mês de referência: {request.POST.get('reference_month', '').strip()} | "
-            f"Peneira: {request.POST.get('screen_size', '').strip()}"
-        )
+        comments = request.POST.get('comments', '').strip()
 
         Sample.objects.create(
             client=client_instance,
@@ -91,4 +87,32 @@ def delete_sample(request, sample_id):
     if request.method == 'POST':
         sample = get_object_or_404(Sample, id=sample_id)
         sample.delete()
+    return redirect('home')
+
+
+def edit_sample(request, sample_id):
+    sample = get_object_or_404(Sample, id=sample_id)
+
+    if request.method == 'POST':
+        sample.client = get_object_or_404(Client, id=request.POST.get('client'))
+        sample.contract_ref = request.POST.get('contract', '').strip()
+        sample.contract_month = request.POST.get('reference_month', '').strip()
+        sample.sample_type = request.POST.get('sample_type', '').strip()
+        sample.status = request.POST.get('status', '').strip()
+        sample.weight = request.POST.get('weight') or None
+        sample.shipment_cost = request.POST.get('shipment_cost', '').strip()
+        sample.fiscal_number = request.POST.get('fiscal_number', '').strip()
+        sample.shipping_date = parse_date(request.POST.get('shipping_date', ''))
+        sample.delivery_date = parse_date(request.POST.get('delivery_date', ''))
+        sample.tracking_number = request.POST.get('tracking_number', '').strip()
+        sample.courier = request.POST.get('courier', '').strip()
+        sample.screen_size = request.POST.get('screen_size', '').strip()
+        sample.cupping = request.POST.get('cupping', '').strip()
+        sample.comments = request.POST.get('comments', '').strip()
+
+        if request.FILES.get('sample_image'):
+            sample.sample_image = request.FILES['sample_image']
+
+        sample.save()
+
     return redirect('home')
