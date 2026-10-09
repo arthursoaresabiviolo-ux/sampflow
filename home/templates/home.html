@@ -47,7 +47,7 @@
         <!-- Container where the samples will be displayed in blocks/cards -->
         <div class="samples-grid">
             {% for sample in samples %}
-                <div class="sample-card">
+                <div class="sample-card" id="sample-card-{{ sample.id }}">
                     <div class="sample-card-header">
                         <span class="contract-tag">{{ sample.contract_ref|default:"Sem contrato" }}</span>
                         <span class="status-badge status-{{ sample.status|slugify }}">{{ sample.status }}</span>
@@ -63,7 +63,41 @@
                         <span>Data de envio: {{ sample.shipping_date|date:"d/m/Y"|default:"Não informado" }}</span><br>
                         <span>Data de entrega: {{ sample.delivery_date|date:"d/m/Y"|default:"A ser informada" }}</span>
                     </div>
+                    <div class="sample-card-details" id="sample-details-{{ sample.id }}" hidden>
+                        <p><strong>Mês do contrato:</strong> {{ sample.contract_month|default:"Não informado" }}</p>
+                        <p><strong>Peso:</strong> {{ sample.weight|default:"Não informado" }}</p>
+                        <p><strong>Nota fiscal:</strong> {{ sample.fiscal_number|default:"Não informado" }}</p>
+                        <p><strong>Peneira:</strong> {{ sample.screen_size|default:"Não informado" }}</p>
+                        <p><strong>Cupping:</strong> {{ sample.cupping|default:"Não informado" }}</p>
+                        <p><strong>Comentários:</strong> {{ sample.comments|default:"Nenhum comentário" }}</p>
+                        {% if sample.sample_image %}
+                            <a href="{{ sample.sample_image.url }}" target="_blank" rel="noopener">Ver foto da amostra</a>
+                        {% endif %}
+                        <button type="button" class="btn-edit-sample" onclick="openSampleEditModal(this)"
+                            data-id="{{ sample.id }}"
+                            data-client="{{ sample.client_id }}"
+                            data-contract="{{ sample.contract_ref|default:'' }}"
+                            data-reference-month="{{ sample.contract_month|default:'' }}"
+                            data-sample-type="{{ sample.sample_type|default:'' }}"
+                            data-status="{{ sample.status|default:'' }}"
+                            data-weight="{{ sample.weight|default:'' }}"
+                            data-shipment-cost="{{ sample.shipment_cost|default:'' }}"
+                            data-fiscal-number="{{ sample.fiscal_number|default:'' }}"
+                            data-shipping-date="{{ sample.shipping_date|date:'Y-m-d' }}"
+                            data-delivery-date="{{ sample.delivery_date|date:'Y-m-d' }}"
+                            data-tracking-number="{{ sample.tracking_number|default:'' }}"
+                            data-courier="{{ sample.courier|default:'' }}"
+                            data-screen-size="{{ sample.screen_size|default:'' }}"
+                            data-cupping="{{ sample.cupping|default:'' }}"
+                            data-comments="{{ sample.comments|default:'' }}">
+                            <i data-lucide="pencil"></i> Editar dados
+                        </button>
+                    </div>
                     <div class="sample-actions">
+                        <button type="button" class="btn-sample-details" title="Ver detalhes e editar amostra" aria-expanded="false" data-sample-id="{{ sample.id }}">
+                            <span class="sample-details-label">Detalhes</span>
+                            <i data-lucide="chevron-down"></i>
+                        </button>
                         <form method="POST" action="{% url 'delete_sample' sample.id %}" onsubmit="return confirm('Excluir a amostra {% if sample.contract_ref %}{{ sample.contract_ref }}{% else %}sem contrato{% endif %}?');" class="delete-form">
                             {% csrf_token %}
                             <button type="submit" class="btn-delete" title="Excluir amostra" aria-label="Excluir amostra">
@@ -85,13 +119,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h2>Cadastrar Nova Amostra</h2>
+                    <h2 id="sample-modal-title">Cadastrar Nova Amostra</h2>
                     <p class="modal-subtitle">Campos marcados com * são obrigatórios</p>
                 </div>
                 <button class="close-modal-btn" onclick="closeSampleModal()">&times;</button>
             </div>
 
-            <form action="{% url 'create_sample' %}" method="POST" class="sample-form"> {% csrf_token %}
+            <form id="sample-form" action="{% url 'create_sample' %}" method="POST" enctype="multipart/form-data" class="sample-form"> {% csrf_token %}
 
                 <div class="sample-form-group full-width">
                     <label for="client">CLIENTE *</label>
@@ -203,7 +237,7 @@
 
                 <div class="form-actions">
                     <button type="button" class="btn-cancel" onclick="closeSampleModal()">Cancelar</button>
-                    <button type="submit" class="btn-submit">Salvar Amostra</button>
+                    <button type="submit" id="sample-submit-btn" class="btn-submit">Salvar Amostra</button>
                 </div>
             </form>
         </div>
