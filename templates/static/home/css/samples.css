@@ -38,6 +38,7 @@
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
     margin-top: 20px;
+    align-items: start;
 }
 
 .sample-card {
@@ -100,8 +101,37 @@
 .sample-actions {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
     margin-top: 8px;
 }
+
+.sample-card-details {
+    margin-top: 14px;
+    padding: 12px;
+    border-top: 1px solid #1b263b;
+    background-color: rgba(27, 38, 59, 0.45);
+    border-radius: 8px;
+}
+
+.sample-card-details p { margin: 6px 0; font-size: 0.82em; color: #c7d0d8; }
+.sample-card-details a { color: #e0a96d; font-size: 0.82em; }
+
+.btn-sample-details, .btn-edit-sample {
+    background: transparent;
+    border: none;
+    color: #f5efe6;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 6px;
+    transition: 0.2s;
+}
+
+.btn-sample-details:hover, .btn-edit-sample:hover { background-color: rgba(240, 239, 234, 0.1); color: #ffd900; }
+.btn-sample-details { display: inline-flex; align-items: center; gap: 4px; }
+.btn-sample-details svg { width: 16px; height: 16px; transition: transform 0.2s ease; }
+.btn-sample-details.is-expanded svg { transform: rotate(180deg); }
+.btn-edit-sample { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; color: #e0a96d; }
 
 /* --- Registration Modal / Pop-up --- */
 .modal-overlay {
