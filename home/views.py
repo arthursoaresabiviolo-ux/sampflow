@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, Http404
 from django.utils.dateparse import parse_date
 from decimal import Decimal, InvalidOperation
 from .models import Client, Sample
@@ -74,7 +75,9 @@ def create_sample(request):
         courier = request.POST.get("courier", "").strip()
         screen_size = request.POST.get("screen_size", "").strip()
         cupping = request.POST.get("cupping", "").strip()
-        sample_image = request.FILES.get("sample_image")
+        image_file = request.FILES.get("sample_image")
+        sample_image_data = image_file.read() if image_file else None
+        sample_image_mimetype = image_file.content_type if image_file else None
         comments = request.POST.get('comments', '').strip()
 
         Sample.objects.create(
@@ -94,7 +97,8 @@ def create_sample(request):
             screen_size=screen_size,
             cupping=cupping,
             comments=comments,
-            sample_image=sample_image
+            sample_image=sample_image_data,
+            sample_image_mimetype=sample_image_mimetype
         )
 
         return redirect("home")
@@ -130,8 +134,21 @@ def edit_sample(request, sample_id):
         sample.comments = request.POST.get('comments', '').strip()
 
         if request.FILES.get('sample_image'):
-            sample.sample_image = request.FILES['sample_image']
+            image_file = request.FILES['sample_image']
+            sample.sample_image = image_file.read()
+            sample.sample_image_mimetype = image_file.content_type or 'image/jpeg'
 
         sample.save()
 
     return redirect('home')
+
+
+def sample_image(request, sample_id):
+    sample = get_object_or_404(Sample, id=sample_id)
+    if not sample.has_image:
+        raise Http404("Foto não encontrada")
+
+    data = bytes(sample.sample_image)
+    response = HttpResponse(data, content_type=sample.sample_image_mimetype or 'image/jpeg')
+    response['Cache-Control'] = 'public, max-age=86400'
+    return response
