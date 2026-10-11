@@ -28,7 +28,8 @@ class Sample(models.Model):
     screen_size = models.CharField(max_length=100, blank=True, null=True)
     cupping = models.CharField(max_length=100, blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
-    sample_image = models.ImageField(upload_to='sample_images/', blank=True, null=True)
+    sample_image = models.BinaryField(blank=True, null=True)
+    sample_image_mimetype = models.CharField(max_length=50, blank=True, null=True, default='image/jpeg')
     created_at = models.DateTimeField(auto_now_add=True)
 
     @property
@@ -50,6 +51,23 @@ class Sample(models.Model):
             return ""
         val = f"{self.weight:.2f}".rstrip('0').rstrip('.')
         return f"{val}{self.weight_unit}"
+
+    @property
+    def has_image(self):
+        if not self.sample_image:
+            return False
+        data = bytes(self.sample_image)
+        return len(data) > 60 and not data.startswith(b'sample_images/')
+
+    @property
+    def image_data_uri(self):
+        if not self.has_image:
+            return ""
+        import base64
+        data = bytes(self.sample_image)
+        encoded = base64.b64encode(data).decode('utf-8')
+        mime = self.sample_image_mimetype or 'image/jpeg'
+        return f"data:{mime};base64,{encoded}"
 
     def __str__(self):
         return self.contract_ref or f"Sample {self.pk}"
