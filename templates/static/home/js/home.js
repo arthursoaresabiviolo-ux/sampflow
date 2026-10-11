@@ -78,21 +78,29 @@ function openSampleEditModal(button) {
     const data = button.dataset;
     const form = document.getElementById('sample-form');
     const value = (name) => data[name] || '';
+    const normalize = (text) => String(text).trim().toLocaleLowerCase('pt-BR');
+    const setSelectValue = (id, rawValue) => {
+        const select = document.getElementById(id);
+        const matchingOption = Array.from(select.options).find(
+            (option) => normalize(option.value) === normalize(rawValue)
+        );
+        select.value = matchingOption ? matchingOption.value : rawValue;
+    };
 
     form.reset();
     form.action = `/sample/edit/${data.id}/`;
-    document.getElementById('client').value = value('client');
+    setSelectValue('client', value('client'));
     document.getElementById('contract').value = value('contract');
     document.getElementById('reference-month').value = value('referenceMonth');
-    document.getElementById('sample-type').value = value('sampleType');
-    document.getElementById('status').value = value('status');
+    setSelectValue('sample-type', value('sampleType'));
+    setSelectValue('status', value('status'));
     document.getElementById('weight').value = value('weight');
     document.getElementById('shipment-cost').value = value('shipmentCost');
     document.getElementById('fiscal-number').value = value('fiscalNumber');
     document.getElementById('shipping-date').value = value('shippingDate');
     document.getElementById('delivery-date').value = value('deliveryDate');
     document.getElementById('tracking-number').value = value('trackingNumber');
-    document.getElementById('courier').value = value('courier');
+    setSelectValue('courier', value('courier'));
     document.getElementById('screen-size').value = value('screenSize');
     document.getElementById('cupping').value = value('cupping');
     document.getElementById('comments').value = value('comments');
