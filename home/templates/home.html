@@ -78,8 +78,15 @@
                         <p><strong>Peneira:</strong> {{ sample.screen_size|default:"Não informado" }}</p>
                         <p><strong>Cupping:</strong> {{ sample.cupping|default:"Não informado" }}</p>
                         <p><strong>Comentários:</strong> {{ sample.comments|default:"Nenhum comentário" }}</p>
-                        {% if sample.sample_image %}
-                            <a href="{{ sample.sample_image.url }}" target="_blank" rel="noopener"><i data-lucide="image"></i> Ver foto da amostra</a>
+                        {% if sample.has_image %}
+                            <div class="sample-image-box">
+                                <a href="{% url 'sample_image' sample.id %}" target="_blank" rel="noopener" class="sample-image-preview-link" title="Clique para ver em tamanho real">
+                                    <img src="{% url 'sample_image' sample.id %}" alt="Foto da amostra" class="sample-image-thumb" loading="lazy">
+                                </a>
+                                <a href="{% url 'sample_image' sample.id %}" target="_blank" rel="noopener" class="sample-image-btn">
+                                    <i data-lucide="image"></i> Ver foto da amostra
+                                </a>
+                            </div>
                         {% endif %}
                         <button type="button" class="btn-edit-sample" onclick="openSampleEditModal(this)"
                             data-id="{{ sample.id }}"
