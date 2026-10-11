@@ -18,6 +18,7 @@ class Sample(models.Model):
     sample_type = models.CharField(max_length=100, blank=True, null=True)
     status = models.CharField(max_length=100, blank=True, null=True)
     weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    weight_unit = models.CharField(max_length=5, choices=[('g', 'g'), ('kg', 'kg')], default='g')
     shipment_cost = models.CharField(max_length=100, blank=True, null=True)
     fiscal_number = models.CharField(max_length=100, blank=True, null=True)
     shipping_date = models.DateField(blank=True, null=True)
@@ -30,5 +31,25 @@ class Sample(models.Model):
     sample_image = models.ImageField(upload_to='sample_images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def weight_in_kg(self): #Returns the weight converted to kilograms (kg).
+        if self.weight is None:
+            return None
+        return self.weight if self.weight_unit == 'kg' else self.weight / 1000
+
+    @property
+    def formatted_weight(self): #Returns the weight formatted with a space before the unit.
+        if self.weight is None:
+            return ""
+        val = f"{self.weight:.2f}".rstrip('0').rstrip('.')
+        return f"{val} {self.weight_unit}"
+
+    @property
+    def weight_input_value(self): #Returns the weight formatted for input fields, without a space before the unit.
+        if self.weight is None:
+            return ""
+        val = f"{self.weight:.2f}".rstrip('0').rstrip('.')
+        return f"{val}{self.weight_unit}"
+
     def __str__(self):
-        return self.name
+        return self.contract_ref or f"Sample {self.pk}"
