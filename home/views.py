@@ -1,6 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.dateparse import parse_date
+from decimal import Decimal, InvalidOperation
 from .models import Client, Sample
+
+
+def parse_sample_weight(value): #Parses the input weight, detects the unit (kg or g), and returns a Decimal value with its unit.
+    raw = (value or '').strip().lower()
+    if not raw:
+        return None, 'g'
+
+    unit = 'kg' if 'k' in raw else 'g'
+    normalized = raw.replace('kg', '').replace('k', '').replace('g', '').strip()
+
+    if ',' in normalized:
+        normalized = normalized.replace('.', '').replace(',', '.')
+
+    try:
+        return (Decimal(normalized) if normalized else None), unit
+    except InvalidOperation:
+        return None, unit
 
 def home(request):
     if request.method == 'GET':
@@ -47,7 +65,7 @@ def create_sample(request):
         contract_month = request.POST.get("reference_month", "").strip()
         sample_type = request.POST.get("sample_type", "").strip()
         status = request.POST.get("status")
-        weight = request.POST.get("weight")
+        weight, weight_unit = parse_sample_weight(request.POST.get("weight"))
         shipment_cost = request.POST.get("shipment_cost", "").strip()
         fiscal_number = request.POST.get("fiscal_number", "").strip()
         shipping_date = parse_date(request.POST.get("shipping_date", ""))
@@ -66,6 +84,7 @@ def create_sample(request):
             sample_type=sample_type,
             status=status,
             weight=weight,
+            weight_unit=weight_unit,
             shipment_cost=shipment_cost,
             fiscal_number=fiscal_number,
             shipping_date=shipping_date,
@@ -99,7 +118,7 @@ def edit_sample(request, sample_id):
         sample.contract_month = request.POST.get('reference_month', '').strip()
         sample.sample_type = request.POST.get('sample_type', '').strip()
         sample.status = request.POST.get('status', '').strip()
-        sample.weight = request.POST.get('weight') or None
+        sample.weight, sample.weight_unit = parse_sample_weight(request.POST.get('weight'))
         sample.shipment_cost = request.POST.get('shipment_cost', '').strip()
         sample.fiscal_number = request.POST.get('fiscal_number', '').strip()
         sample.shipping_date = parse_date(request.POST.get('shipping_date', ''))
