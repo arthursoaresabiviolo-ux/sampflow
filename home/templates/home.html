@@ -79,7 +79,7 @@
                         <p><strong>Cupping:</strong> {{ sample.cupping|default:"Não informado" }}</p>
                         <p><strong>Comentários:</strong> {{ sample.comments|default:"Nenhum comentário" }}</p>
                         {% if sample.sample_image %}
-                            <a href="{{ sample.sample_image.url }}" target="_blank" rel="noopener">Ver foto da amostra</a>
+                            <a href="{{ sample.sample_image.url }}" target="_blank" rel="noopener"><i data-lucide="image"></i> Ver foto da amostra</a>
                         {% endif %}
                         <button type="button" class="btn-edit-sample" onclick="openSampleEditModal(this)"
                             data-id="{{ sample.id }}"
@@ -213,10 +213,10 @@
                     <div class="sample-form-group">
                         <label for="courier">TRANSPORTADORA *</label>
                         <select id="courier" name="courier" required>
-                            <option value="Fedex" selected>FedEx</option>
+                            <option value="FedEx" selected>FedEx</option>
                             <option value="Correios">Correios</option>
-                            <option value="Dhl">DHL</option>
-                            <option value="Ups">UPS</option>
+                            <option value="DHL">DHL</option>
+                            <option value="UPS">UPS</option>
                         </select>
                     </div>
                     <div class="sample-form-group">
