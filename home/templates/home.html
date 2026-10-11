@@ -65,7 +65,7 @@
                     </div>
                     <div class="sample-card-details" id="sample-details-{{ sample.id }}" hidden>
                         <p><strong>Mês do contrato:</strong> {{ sample.contract_month|default:"Não informado" }}</p>
-                        <p><strong>Peso:</strong> {{ sample.weight|default:"Não informado" }}</p>
+                        <p><strong>Peso:</strong> {{ sample.formatted_weight|default:"Não informado" }}</p>
                         <p><strong>Nota fiscal:</strong> {{ sample.fiscal_number|default:"Não informado" }}</p>
                         <p><strong>Peneira:</strong> {{ sample.screen_size|default:"Não informado" }}</p>
                         <p><strong>Cupping:</strong> {{ sample.cupping|default:"Não informado" }}</p>
@@ -80,7 +80,7 @@
                             data-reference-month="{{ sample.contract_month|default:'' }}"
                             data-sample-type="{{ sample.sample_type|default:'' }}"
                             data-status="{{ sample.status|default:'' }}"
-                            data-weight="{{ sample.weight|default:'' }}"
+                            data-weight="{{ sample.weight_input_value }}"
                             data-shipment-cost="{{ sample.shipment_cost|default:'' }}"
                             data-fiscal-number="{{ sample.fiscal_number|default:'' }}"
                             data-shipping-date="{{ sample.shipping_date|date:'Y-m-d' }}"
@@ -171,11 +171,11 @@
                 <div class="form-row">
                     <div class="sample-form-group">
                         <label for="weight">PESO *</label>
-                        <input type="number" id="weight" name="weight" placeholder="ex: 0,5g" required>
+                        <input type="text" id="weight" name="weight" placeholder="ex.: 500g ou 1,5kg" inputmode="decimal" pattern="^\d+(?:[.,]\d+)?\s*(?:kg|k|g|KG|K|G)?$" title="Informe um peso em gramas ou quilos (ex.: 500g ou 1,5kg)" required>
                     </div>
                     <div class="sample-form-group">
                         <label for="shipment-cost">VALOR DE ENVIO</label>
-                        <input type="number" id="shipment-cost" name="shipment_cost" placeholder="ex: R$ 100,00">
+                        <input type="text" id="shipment-cost" name="shipment_cost" placeholder="ex: R$ 100,00" inputmode="decimal">
                     </div>
                 </div>
 
