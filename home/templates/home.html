@@ -57,7 +57,15 @@
                         <p><strong>Código de Rastreio:</strong> {{ sample.tracking_number|default:"Não informado" }}</p>
                         <p><strong>Transportadora:</strong> {{ sample.courier|default:"Não informado" }}</p>
                         <p><strong>Tipo Amostra:</strong> {{ sample.sample_type|default:"Não informado" }}</p>
-                        <p><strong>Valor de Envio:</strong> {{ sample.shipment_cost|default:"Não informado" }}</p>
+                        {% load l10n %}
+                        <p>
+                            <strong>Valor de Envio:</strong>
+                            {% if sample.shipment_cost != None and sample.shipment_cost != "" %}
+                                R$ {{ sample.shipment_cost|floatformat:2|localize }}
+                            {% else %}
+                                Não informado
+                            {% endif %}
+                        </p>
                     </div>
                     <div class="sample-card-footer">
                         <span>Data de envio: {{ sample.shipping_date|date:"d/m/Y"|default:"Não informado" }}</span><br>
