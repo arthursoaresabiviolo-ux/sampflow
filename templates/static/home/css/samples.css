@@ -1,5 +1,21 @@
-/* --- Header & Add Button --- */
-.header-panel { display: flex; justify-content: space-between; align-items: center; padding: 16px 26px; }
+/* --- Header, Search & Add Button --- */
+.header-panel { display: flex; justify-content: space-between; align-items: center; padding: 16px 26px; gap: 16px; }
+.header-actions { display: flex; align-items: center; gap: 14px; }
+.sample-search-wrapper { position: relative; display: flex; align-items: center; }
+.sample-search-wrapper .search-icon { position: absolute; left: 12px; width: 16px; height: 16px; color: #829ab1; pointer-events: none; transition: color 0.2s; }
+.sample-search-wrapper input {
+    background-color: #09131f; border: 1px solid #1e334d; border-radius: 20px;
+    padding: 9px 34px 9px 36px; color: #f5efe6; font-size: 0.86rem; outline: none;
+    width: 260px; transition: all 0.25s ease; font-family: inherit;
+}
+.sample-search-wrapper input::placeholder { color: #64748b; font-size: 0.84rem; }
+.sample-search-wrapper input:focus { border-color: #f8c301; box-shadow: 0 0 0 3px rgba(248, 195, 1, 0.15); background-color: #0b1726; width: 300px; }
+.sample-search-wrapper:focus-within .search-icon { color: #f8c301; }
+.clear-search-btn {
+    position: absolute; right: 10px; background: transparent; border: none; color: #829ab1;
+    font-size: 1.15rem; cursor: pointer; line-height: 1; padding: 2px 4px; border-radius: 50%; transition: color 0.2s;
+}
+.clear-search-btn:hover { color: #f8c301; }
 .add-sample-btn {
     background-color: transparent; border: 2px solid #f8c301; color: #f8c301;
     width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center;
@@ -156,6 +172,11 @@
 .btn-submit:hover, .btn-sample-submit:hover { background-color: #e5a855; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(248, 195, 1, 0.35); }
 
 @media (max-width: 620px) {
+    .header-panel { flex-direction: column; align-items: stretch; gap: 14px; }
+    .header-actions { width: 100%; justify-content: space-between; }
+    .sample-search-wrapper { flex: 1; }
+    .sample-search-wrapper input { width: 100%; }
+    .sample-search-wrapper input:focus { width: 100%; }
     .form-row { flex-direction: column; gap: 14px; }
     .modal-content { padding: 22px 18px; }
     .form-actions { flex-direction: column-reverse; }
