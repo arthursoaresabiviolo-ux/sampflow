@@ -39,13 +39,23 @@
         <!-- Tab Header with Add Button (+) -->
         <div class="card-panel header-panel">
             <h2>Amostras</h2>
-            <button class="add-sample-btn" onclick="openSampleModal()" title="Cadastrar Nova Amostra">
-                <span class="plus-icon">+</span>
-            </button>
+            <div class="header-actions">
+                <div class="sample-search-wrapper">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" id="sample-search-input" placeholder="Buscar por contrato, tipo, cliente..." autocomplete="off">
+                    <button type="button" id="clear-sample-search" class="clear-search-btn" title="Limpar busca" style="display: none;">&times;</button>
+                </div>
+                <button class="add-sample-btn" onclick="openSampleModal()" title="Cadastrar Nova Amostra">
+                    <span class="plus-icon">+</span>
+                </button>
+            </div>
         </div>
 
         <!-- Container where the samples will be displayed in blocks/cards -->
         <div class="samples-grid">
+            <div id="no-search-results" class="no-samples" style="display: none;">
+                <p>Nenhuma amostra encontrada para os termos buscados.</p>
+            </div>
             {% for sample in samples %}
                 <div class="sample-card" id="sample-card-{{ sample.id }}">
                     <div class="sample-card-header">
