@@ -5,6 +5,11 @@ function switchTab(event, tabId) {
     
     document.getElementById(tabId).classList.add('active');
     event.currentTarget.classList.add('active');
+
+    const backBtn = document.getElementById('back-to-top');
+    if (backBtn) {
+        backBtn.classList.toggle('show', window.scrollY > 50);
+    }
 }
 
 // Edit Modal / Form Handler
