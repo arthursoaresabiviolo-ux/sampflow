@@ -304,7 +304,7 @@
 
                                 <form method="POST" action="{% url 'delete_client' client.id %}" onsubmit="return confirm('Excluir {{ client.name }}?');" class="delete-form">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn-delete" title="Delete client">
+                                    <button type="submit" class="btn-delete" title="Excluir cliente" aria-label="Excluir cliente">
                                         <i data-lucide="trash-2"></i>
                                     </button>
                                 </form>
