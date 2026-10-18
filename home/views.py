@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.http import HttpResponse, Http404
 from django.utils.dateparse import parse_date
 from decimal import Decimal, InvalidOperation
@@ -36,13 +37,13 @@ def create_client(request):
         phone = request.POST.get('phone')
         if name and country and address:
             Client.objects.create(name=name, address=address, country=country, email=email, phone=phone)
-    return redirect('home')
+    return redirect(f"{reverse('home')}#clients-tab")
 
 def delete_client(request, client_id):
     if request.method == 'POST':
         client = get_object_or_404(Client, id=client_id)
         client.delete()
-        return redirect('home')
+        return redirect(f"{reverse('home')}#clients-tab")
 
 def edit_client(request, client_id):
     client = get_object_or_404(Client, id=client_id)
@@ -54,9 +55,9 @@ def edit_client(request, client_id):
         client.email = request.POST.get('email')
         client.phone = request.POST.get('phone')
         client.save()
-        return redirect('home')
+        return redirect(f"{reverse('home')}#clients-tab")
 
-    return redirect('home')
+    return redirect(f"{reverse('home')}#clients-tab")
 
 def create_sample(request):
     if request.method == "POST":
@@ -101,16 +102,16 @@ def create_sample(request):
             sample_image_mimetype=sample_image_mimetype
         )
 
-        return redirect("home")
+        return redirect(f"{reverse('home')}#samples-tab")
 
-    return redirect("home")
+    return redirect(f"{reverse('home')}#samples-tab")
 
 
 def delete_sample(request, sample_id):
     if request.method == 'POST':
         sample = get_object_or_404(Sample, id=sample_id)
         sample.delete()
-    return redirect('home')
+    return redirect(f"{reverse('home')}#samples-tab")
 
 
 def edit_sample(request, sample_id):
@@ -140,7 +141,7 @@ def edit_sample(request, sample_id):
 
         sample.save()
 
-    return redirect('home')
+    return redirect(f"{reverse('home')}#samples-tab")
 
 
 def sample_image(request, sample_id):
