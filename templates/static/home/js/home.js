@@ -1,14 +1,66 @@
-// Tab Switching
-function switchTab(event, tabId) {
+// Tab Switching & Persistence
+function activateTab(tabId, updateUrl = true) {
+    const targetContent = document.getElementById(tabId);
+    if (!targetContent) return;
+
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    
-    document.getElementById(tabId).classList.add('active');
-    event.currentTarget.classList.add('active');
+
+    targetContent.classList.add('active');
+
+    const matchingBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    if (matchingBtn) {
+        matchingBtn.classList.add('active');
+    }
+
+    try {
+        localStorage.setItem('sampflow_active_tab', tabId);
+    } catch (e) {}
+
+    if (updateUrl) {
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', `#${tabId}`);
+        } else {
+            window.location.hash = tabId;
+        }
+    }
+
+    const preloadStyle = document.getElementById('tab-preload-style');
+    if (preloadStyle) {
+        preloadStyle.remove();
+    }
 
     const backBtn = document.getElementById('back-to-top');
     if (backBtn) {
         backBtn.classList.toggle('show', window.scrollY > 50);
+    }
+}
+
+function switchTab(event, tabId) {
+    if (event && event.preventDefault) {
+        event.preventDefault();
+    }
+    activateTab(tabId, true);
+}
+
+function restoreActiveTab() {
+    const validTabs = ['samples-tab', 'dashboards-tab', 'clients-tab'];
+    const hash = window.location.hash ? window.location.hash.replace('#', '') : null;
+    let targetTab = null;
+
+    if (hash && validTabs.includes(hash)) {
+        targetTab = hash;
+    } else {
+        try {
+            const storedTab = localStorage.getItem('sampflow_active_tab');
+            if (storedTab && validTabs.includes(storedTab)) {
+                targetTab = storedTab;
+            }
+        } catch (e) {}
+    }
+
+    if (targetTab) {
+        activateTab(targetTab, false);
     }
 }
 
@@ -169,6 +221,7 @@ function initSampleSearch() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    restoreActiveTab();
     initSampleSearch();
     document.querySelectorAll('.btn-sample-details').forEach(function(button) {
         button.addEventListener('click', function() {
