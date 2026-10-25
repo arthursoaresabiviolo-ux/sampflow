@@ -4,6 +4,7 @@ from django.http import HttpResponse, Http404
 from django.utils.dateparse import parse_date
 from decimal import Decimal, InvalidOperation
 from .models import Client, Sample
+from .invoice import generate_invoice_pdf
 
 
 def parse_sample_weight(value): #Parses the input weight, detects the unit (kg or g), and returns a Decimal value with its unit.
@@ -152,4 +153,14 @@ def sample_image(request, sample_id):
     data = bytes(sample.sample_image)
     response = HttpResponse(data, content_type=sample.sample_image_mimetype or 'image/jpeg')
     response['Cache-Control'] = 'public, max-age=86400'
+    return response
+
+
+def generate_invoice(request, sample_id):
+    sample = get_object_or_404(Sample, id=sample_id)
+    pdf_bytes = generate_invoice_pdf(sample)
+    contract_slug = (sample.contract_ref or f"sample_{sample.id}").strip().replace('/', '_').replace(' ', '_')
+    filename = f"invoice_{contract_slug}.pdf"
+    response = HttpResponse(pdf_bytes, content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="{filename}"'
     return response
