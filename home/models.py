@@ -12,6 +12,15 @@ class Client(models.Model):
         return self.name
 
 class Sample(models.Model):
+    PACKAGE_TYPE_CHOICES = [
+        ('FedEx Large Pak (30,48 cm x 39,37 cm)', 'FedEx Large Pak (30,48 cm x 39,37 cm)'),
+        ('FedEx Small Box (31,12 cm x 27,69 cm x 3,81 cm)', 'FedEx Small Box (31,12 cm x 27,69 cm x 3,81 cm)'),
+        ('FedEx Medium Box (33,66 cm x 29,21 cm x 6,03 cm)', 'FedEx Medium Box (33,66 cm x 29,21 cm x 6,03 cm)'),
+        ('DHL Small Flyer (40 cm x 30 cm)', 'DHL Small Flyer (40 cm x 30 cm)'),
+        ('UPS Pak (40,6 cm x 33 cm x 2,5 cm)', 'UPS Pak (40,6 cm x 33 cm x 2,5 cm)'),
+        ('Outro', 'Outro'),
+    ]
+
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='samples')
     contract_ref = models.CharField(max_length=100, blank=True, null=True)
     contract_month = models.CharField(max_length=100, blank=True, null=True)
@@ -20,6 +29,8 @@ class Sample(models.Model):
     weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     gross_weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     weight_unit = models.CharField(max_length=5, choices=[('g', 'g'), ('kg', 'kg')], default='g')
+    gross_weight_unit = models.CharField(max_length=5, choices=[('g', 'g'), ('kg', 'kg')], default='g')
+    package_type = models.CharField(max_length=100, choices=PACKAGE_TYPE_CHOICES, blank=True, null=True)
     fiscal_number = models.CharField(max_length=100, blank=True, null=True)
     shipping_date = models.DateField(blank=True, null=True)
     delivery_date = models.DateField(blank=True, null=True)
@@ -52,6 +63,26 @@ class Sample(models.Model):
             return ""
         val = f"{self.weight:.2f}".rstrip('0').rstrip('.')
         return f"{val}{self.weight_unit}"
+
+    @property
+    def gross_weight_in_kg(self): #Returns the gross weight converted to kilograms (kg).
+        if self.gross_weight is None:
+            return None
+        return self.gross_weight if self.gross_weight_unit == 'kg' else self.gross_weight / 1000
+
+    @property
+    def formatted_gross_weight(self): #Returns the gross weight formatted with a space before the unit.
+        if self.gross_weight is None:
+            return ""
+        val = f"{self.gross_weight:.2f}".rstrip('0').rstrip('.')
+        return f"{val} {self.gross_weight_unit}"
+
+    @property
+    def gross_weight_input_value(self): #Returns the gross weight formatted for input fields, without a space before the unit.
+        if self.gross_weight is None:
+            return ""
+        val = f"{self.gross_weight:.2f}".rstrip('0').rstrip('.')
+        return f"{val}{self.gross_weight_unit}"
 
     @property
     def has_image(self):
