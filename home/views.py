@@ -69,6 +69,8 @@ def create_sample(request):
         sample_type = request.POST.get("sample_type", "").strip()
         status = request.POST.get("status")
         weight, weight_unit = parse_sample_weight(request.POST.get("weight"))
+        gross_weight, gross_weight_unit = parse_sample_weight(request.POST.get("gross_weight"))
+        package_type = request.POST.get("package_type", "").strip()
         shipment_cost = request.POST.get("shipment_cost", "").strip()
         fiscal_number = request.POST.get("fiscal_number", "").strip()
         shipping_date = parse_date(request.POST.get("shipping_date", ""))
@@ -90,6 +92,9 @@ def create_sample(request):
             status=status,
             weight=weight,
             weight_unit=weight_unit,
+            gross_weight=gross_weight,
+            gross_weight_unit=gross_weight_unit,
+            package_type=package_type,
             shipment_cost=shipment_cost,
             fiscal_number=fiscal_number,
             shipping_date=shipping_date,
@@ -125,6 +130,8 @@ def edit_sample(request, sample_id):
         sample.sample_type = request.POST.get('sample_type', '').strip()
         sample.status = request.POST.get('status', '').strip()
         sample.weight, sample.weight_unit = parse_sample_weight(request.POST.get('weight'))
+        sample.gross_weight, sample.gross_weight_unit = parse_sample_weight(request.POST.get('gross_weight'))
+        sample.package_type = request.POST.get('package_type', '').strip()
         sample.shipment_cost = request.POST.get('shipment_cost', '').strip()
         sample.fiscal_number = request.POST.get('fiscal_number', '').strip()
         sample.shipping_date = parse_date(request.POST.get('shipping_date', ''))
