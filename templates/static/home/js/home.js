@@ -152,6 +152,8 @@ function openSampleEditModal(button) {
     setSelectValue('sample-type', value('sampleType'));
     setSelectValue('status', value('status'));
     document.getElementById('weight').value = value('weight');
+    document.getElementById('gross-weight').value = value('grossWeight');
+    setSelectValue('package-type', value('packageType'));
     document.getElementById('shipment-cost').value = value('shipmentCost');
     document.getElementById('fiscal-number').value = value('fiscalNumber');
     document.getElementById('shipping-date').value = value('shippingDate');
