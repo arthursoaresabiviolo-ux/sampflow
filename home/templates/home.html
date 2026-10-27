@@ -88,7 +88,9 @@
                     </div>
                     <div class="sample-card-details" id="sample-details-{{ sample.id }}" hidden>
                         <p><strong>Mês do contrato:</strong> {{ sample.contract_month|default:"Não informado" }}</p>
-                        <p><strong>Peso:</strong> {{ sample.formatted_weight|default:"Não informado" }}</p>
+                        <p><strong>Peso líquido:</strong> {{ sample.formatted_weight|default:"Não informado" }}</p>
+                        <p><strong>Peso bruto:</strong> {{ sample.formatted_gross_weight|default:"Não informado" }}</p>
+                        <p><strong>Tipo de Embalagem:</strong> {{ sample.package_type|default:"Não informado" }}</p>
                         <p><strong>Nota fiscal:</strong> {{ sample.fiscal_number|default:"Não informado" }}</p>
                         <p><strong>Peneira:</strong> {{ sample.screen_size|default:"Não informado" }}</p>
                         <p><strong>Cupping:</strong> {{ sample.cupping|default:"Não informado" }}</p>
@@ -111,6 +113,8 @@
                             data-sample-type="{{ sample.sample_type|default:'' }}"
                             data-status="{{ sample.status|default:'' }}"
                             data-weight="{{ sample.weight_input_value }}"
+                            data-gross-weight="{{ sample.gross_weight_input_value }}"
+                            data-package-type="{{ sample.package_type|default:'' }}"
                             data-shipment-cost="{{ sample.shipment_cost|default:'' }}"
                             data-fiscal-number="{{ sample.fiscal_number|default:'' }}"
                             data-shipping-date="{{ sample.shipping_date|date:'Y-m-d' }}"
@@ -204,12 +208,12 @@
 
                 <div class="form-row">
                     <div class="sample-form-group">
-                        <label for="weight">PESO *</label>
+                        <label for="weight">PESO LÍQUIDO*</label>
                         <input type="text" id="weight" name="weight" placeholder="ex.: 500g ou 1,5kg" inputmode="decimal" pattern="^\d+(?:[.,]\d+)?\s*(?:kg|k|g|KG|K|G)?$" title="Informe um peso em gramas ou quilos (ex.: 500g ou 1,5kg)" required>
                     </div>
                     <div class="sample-form-group">
-                        <label for="shipment-cost">VALOR DE ENVIO</label>
-                        <input type="text" id="shipment-cost" name="shipment_cost" placeholder="ex: R$ 100.00" inputmode="decimal">
+                        <label for="gross-weight">PESO BRUTO</label>
+                        <input type="text" id="gross-weight" name="gross_weight" placeholder="ex.: 550g ou 1,55kg" inputmode="decimal" pattern="^\d+(?:[.,]\d+)?\s*(?:kg|k|g|KG|K|G)?$" title="Informe um peso em gramas ou quilos (ex.: 500g ou 1,5kg)">
                     </div>
                 </div>
 
@@ -246,19 +250,38 @@
                         </select>
                     </div>
                     <div class="sample-form-group">
-                        <label for="screen-size">PENEIRA</label>
-                        <input type="text" id="screen-size" name="screen_size" placeholder="ex: 17/18">
+                        <label for="package-type">TIPO DE EMBALAGEM</label>
+                        <select id="package-type" name="package_type">
+                            <option value="" selected>Selecione o tipo...</option>
+                            <option value="FedEx Large Pak (30,48 cm x 39,37 cm)">FedEx Large Pak (30,48 cm x 39,37 cm)</option>
+                            <option value="FedEx Small Box (31,12 cm x 27,69 cm x 3,81 cm)">FedEx Small Box (31,12 cm x 27,69 cm x 3,81 cm)</option>
+                            <option value="FedEx Medium Box (33,66 cm x 29,21 cm x 6,03 cm)">FedEx Medium Box (33,66 cm x 29,21 cm x 6,03 cm)</option>
+                            <option value="DHL Small Flyer (40 cm x 30 cm)">DHL Small Flyer (40 cm x 30 cm)</option>
+                            <option value="UPS Pak (40,6 cm x 33 cm x 2,5 cm)">UPS Pak (40,6 cm x 33 cm x 2,5 cm)</option>
+                            <option value="Outro">Outro</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="sample-form-group">
+                        <label for="screen-size">PENEIRA</label>
+                        <input type="text" id="screen-size" name="screen_size" placeholder="ex: 17/18">
+                    </div>
+                    <div class="sample-form-group">
                         <label for="cupping">CUPPING</label>
                         <input type="text" id="cupping" name="cupping" placeholder="ex: Fine Cup ou Good Cup">
                     </div>
+                </div>
+
+                <div class="form-row">
                     <div class="sample-form-group">
                         <label for="sample-image">FOTO DA AMOSTRA</label>
                         <input type="file" id="sample-image" name="sample_image" accept="image/*">
+                    </div>
+                    <div class="sample-form-group">
+                        <label for="shipment-cost">VALOR DE ENVIO</label>
+                        <input type="text" id="shipment-cost" name="shipment_cost" placeholder="ex: R$ 100.00" inputmode="decimal">
                     </div>
                 </div>
 
