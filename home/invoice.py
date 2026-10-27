@@ -115,7 +115,11 @@ def generate_invoice_pdf(sample):
         weight_kg = Decimal(str(weight_kg))
 
     net_weight_str = f"{weight_kg:.3f}".replace('.', ',')
-    gross_weight = weight_kg + Decimal('0.050')
+
+    if sample.gross_weight is not None and sample.gross_weight_in_kg is not None:
+        gross_weight = Decimal(str(sample.gross_weight_in_kg))
+    else:
+        gross_weight = weight_kg + Decimal('0.050')
     gross_weight_str = f"{gross_weight:.3f}".replace('.', ',')
 
     description_text = f"COFFEE WITH {net_weight_str} UNITS OF TYPE: GREEN COFFEE 100% ÁRABICA, REGIÃO DE ALTA MOGIANA."
@@ -164,20 +168,26 @@ def generate_invoice_pdf(sample):
 
     # 6. Samples without commercial value & Weights
     c.setFont('Helvetica-Bold', 9)
-    c.drawString(x0 + 10, y_box_bottom - 42, 'SAMPLES WITHOUT COMMERCIAL VALUE')
+    c.drawString(x0 + 10, y_box_bottom - 38, 'SAMPLES WITHOUT COMMERCIAL VALUE')
+
+    if sample.package_type:
+        c.setFont('Helvetica-Bold', 8.5)
+        c.drawString(x0 + 10, y_box_bottom - 58, 'PACKAGE TYPE:')
+        c.setFont('Helvetica', 8.5)
+        c.drawString(x0 + 88, y_box_bottom - 58, sample.package_type)
 
     x_val = x1 - 25
     x_colon = x1 - 65
 
     c.setFont('Helvetica-Bold', 9)
-    c.drawRightString(x_colon, y_box_bottom - 22, 'TOTAL GROSS WEIGHT:')
+    c.drawRightString(x_colon, y_box_bottom - 22, 'TOTAL NET WEIGHT :')
     c.setFont('Helvetica', 9)
-    c.drawRightString(x_val, y_box_bottom - 22, gross_weight_str)
+    c.drawRightString(x_val, y_box_bottom - 22, net_weight_str)
 
     c.setFont('Helvetica-Bold', 9)
-    c.drawRightString(x_colon, y_box_bottom - 42, 'TOTAL NET WEIGHT :')
+    c.drawRightString(x_colon, y_box_bottom - 42, 'TOTAL GROSS WEIGHT:')
     c.setFont('Helvetica', 9)
-    c.drawRightString(x_val, y_box_bottom - 42, net_weight_str)
+    c.drawRightString(x_val, y_box_bottom - 42, gross_weight_str)
 
     c.setFont('Helvetica-Bold', 9)
     c.drawRightString(x_colon, y_box_bottom - 62, 'TOTAL VOLUMES:')
