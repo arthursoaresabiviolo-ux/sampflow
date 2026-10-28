@@ -1,9 +1,12 @@
 import io
+import os
 import datetime
 from decimal import Decimal
 import textwrap
+from django.conf import settings
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
+import pymupdf
 
 
 def format_date_english(d):
@@ -18,31 +21,50 @@ def format_date_english(d):
     return f"{month} {day}{suffix}, {d.year}"
 
 
+def get_letterhead_path():
+    base_dir = getattr(settings, 'BASE_DIR', None)
+    if base_dir:
+        candidates = [
+            os.path.join(base_dir, 'templates', 'static', 'home', 'pdf', 'letterhead.pdf'),
+            os.path.join(base_dir, 'home', 'assets', 'letterhead.pdf'),
+        ]
+        for path in candidates:
+            if os.path.exists(path):
+                return path
+
+    local_fallback = os.path.join(os.path.dirname(__file__), 'assets', 'letterhead.pdf')
+    if os.path.exists(local_fallback):
+        return local_fallback
+
+    return None
+
+
 def generate_invoice_pdf(sample):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
     page_w, page_h = A4  # 595.27 x 841.89 points
 
-    # Outer margins: 38 pt
-    margin = 38
-    x0, y0 = margin, margin
-    x1, y1 = page_w - margin, page_h - margin
+    # Frame dimensions: fitted between header logo and footer banner of the letterhead
+    x0 = 36
+    x1 = page_w - 36
+    y0 = 118
+    y1 = 728
 
     # Outer rectangle border
-    c.setLineWidth(1.8)
+    c.setLineWidth(1.5)
     c.rect(x0, y0, x1 - x0, y1 - y0)
 
     # 1. Top Header Box
     c.setFont('Helvetica-Bold', 10)
-    c.drawCentredString(page_w / 2, y1 - 25, 'COOP. CAFEIC. E AGROP. - COCAPEC')
+    c.drawCentredString(page_w / 2, y1 - 18, 'COOP. CAFEIC. E AGROP. - COCAPEC')
 
-    c.setFont('Helvetica', 9)
-    c.drawCentredString(page_w / 2, y1 - 52, 'AV. WILSON SABIO DE MELLO, NRO.:3100, DISTRITO INDUSTRIAL')
-    c.drawCentredString(page_w / 2, y1 - 72, 'CEP: 14406-052, FRANCA - SP - TEL.: (16) 3711-6200')
-    c.drawCentredString(page_w / 2, y1 - 98, 'CNPJ: 54.772.017/0001-96')
+    c.setFont('Helvetica', 8.5)
+    c.drawCentredString(page_w / 2, y1 - 32, 'AV. WILSON SABIO DE MELLO, NRO.:3100, DISTRITO INDUSTRIAL')
+    c.drawCentredString(page_w / 2, y1 - 45, 'CEP: 14406-052, FRANCA - SP - TEL.: (16) 3711-6200')
+    c.drawCentredString(page_w / 2, y1 - 58, 'CNPJ: 54.772.017/0001-96')
 
     # Divider 1
-    y_div1 = y1 - 116
+    y_div1 = y1 - 70
     c.setLineWidth(1.5)
     c.line(x0, y_div1, x1, y_div1)
 
@@ -55,23 +77,23 @@ def generate_invoice_pdf(sample):
     date_str = format_date_english(sample.shipping_date)
 
     c.setFont('Helvetica-Bold', 9.5)
-    c.drawString(x0 + 10, y_div1 - 22, 'COMMERCIAL INVOICE:')
+    c.drawString(x0 + 10, y_div1 - 18, 'COMMERCIAL INVOICE:')
     c.setFont('Helvetica', 9.5)
-    c.drawString(x0 + 155, y_div1 - 22, invoice_number)
+    c.drawString(x0 + 155, y_div1 - 18, invoice_number)
 
     c.setFont('Helvetica-Bold', 9.5)
-    c.drawString(x0 + 10, y_div1 - 42, 'DATE:')
+    c.drawString(x0 + 10, y_div1 - 36, 'DATE:')
     c.setFont('Helvetica', 9.5)
-    c.drawString(x0 + 155, y_div1 - 42, date_str)
+    c.drawString(x0 + 155, y_div1 - 36, date_str)
 
     # Divider 2
-    y_div2 = y_div1 - 65
+    y_div2 = y_div1 - 52
     c.line(x0, y_div2, x1, y_div2)
 
     # 3. APPLICANT Section
     # Contains ONLY the information that the user provided for the client
     c.setFont('Helvetica-Bold', 9.5)
-    c.drawString(x0 + 10, y_div2 - 20, 'APPLICANT:')
+    c.drawString(x0 + 10, y_div2 - 18, 'APPLICANT:')
 
     applicant_lines = []
     if sample.client:
@@ -87,13 +109,13 @@ def generate_invoice_pdf(sample):
             applicant_lines.append(f"Tel: {sample.client.phone.strip()}")
 
     c.setFont('Helvetica', 9)
-    curr_y = y_div2 - 40
+    curr_y = y_div2 - 34
     for line in applicant_lines:
         c.drawString(x0 + 10, curr_y, line)
-        curr_y -= 15
+        curr_y -= 14
 
     # Divider 3 (Table top)
-    y_div3 = y_div2 - 155
+    y_div3 = y_div2 - 116
     c.line(x0, y_div3, x1, y_div3)
 
     # 4. Table Header
@@ -107,7 +129,6 @@ def generate_invoice_pdf(sample):
     c.drawCentredString((x_col + x1) / 2, y_div3 - 15, 'Value USD')
 
     # Description Row
-    # Determine weights
     weight_kg = sample.weight_in_kg
     if weight_kg is None or weight_kg <= 0:
         weight_kg = Decimal('0.500')
@@ -124,13 +145,13 @@ def generate_invoice_pdf(sample):
 
     description_text = f"COFFEE WITH {net_weight_str} UNITS OF TYPE: GREEN COFFEE 100% ÁRABICA, REGIÃO DE ALTA MOGIANA."
 
-    y_desc_bottom = y_header_bottom - 42
+    y_desc_bottom = y_header_bottom - 38
     c.line(x0, y_desc_bottom, x1, y_desc_bottom)
     c.line(x_col, y_header_bottom, x_col, y_desc_bottom)
 
     c.setFont('Helvetica', 9)
-    c.drawCentredString((x0 + x_col) / 2, y_header_bottom - 24, description_text)
-    c.drawCentredString((x_col + x1) / 2, y_header_bottom - 24, '1,00')
+    c.drawCentredString((x0 + x_col) / 2, y_header_bottom - 23, description_text)
+    c.drawCentredString((x_col + x1) / 2, y_header_bottom - 23, '1,00')
 
     # 5. Airport & Sub-box (TOTAL AMOUNT USD & FCA USD)
     x_sub_left = x1 - 180
@@ -157,45 +178,45 @@ def generate_invoice_pdf(sample):
         discharge = sample.client.country.strip().upper()
 
     c.setFont('Helvetica-Bold', 9)
-    c.drawString(x0 + 10, y_desc_bottom - 18, 'AIRPORT OF LOADING:')
+    c.drawString(x0 + 10, y_desc_bottom - 16, 'AIRPORT OF LOADING:')
     c.setFont('Helvetica', 9)
-    c.drawString(x0 + 155, y_desc_bottom - 18, 'VIRACOPOS, BRAZIL')
+    c.drawString(x0 + 155, y_desc_bottom - 16, 'VIRACOPOS, BRAZIL')
 
     c.setFont('Helvetica-Bold', 9)
-    c.drawString(x0 + 10, y_desc_bottom - 38, 'AIRPORT OF DISCHARGE:')
+    c.drawString(x0 + 10, y_desc_bottom - 34, 'AIRPORT OF DISCHARGE:')
     c.setFont('Helvetica', 9)
-    c.drawString(x0 + 155, y_desc_bottom - 38, discharge)
+    c.drawString(x0 + 155, y_desc_bottom - 34, discharge)
 
     # 6. Samples without commercial value & Weights
     c.setFont('Helvetica-Bold', 9)
-    c.drawString(x0 + 10, y_box_bottom - 38, 'SAMPLES WITHOUT COMMERCIAL VALUE')
+    c.drawString(x0 + 10, y_box_bottom - 32, 'SAMPLES WITHOUT COMMERCIAL VALUE')
 
     if sample.package_type:
         c.setFont('Helvetica-Bold', 8.5)
-        c.drawString(x0 + 10, y_box_bottom - 58, 'PACKAGE TYPE:')
+        c.drawString(x0 + 10, y_box_bottom - 50, 'PACKAGE TYPE:')
         c.setFont('Helvetica', 8.5)
-        c.drawString(x0 + 88, y_box_bottom - 58, sample.package_type)
+        c.drawString(x0 + 88, y_box_bottom - 50, sample.package_type)
 
     x_val = x1 - 25
     x_colon = x1 - 65
 
     c.setFont('Helvetica-Bold', 9)
-    c.drawRightString(x_colon, y_box_bottom - 22, 'TOTAL NET WEIGHT :')
+    c.drawRightString(x_colon, y_box_bottom - 18, 'TOTAL NET WEIGHT :')
     c.setFont('Helvetica', 9)
-    c.drawRightString(x_val, y_box_bottom - 22, net_weight_str)
+    c.drawRightString(x_val, y_box_bottom - 18, net_weight_str)
 
     c.setFont('Helvetica-Bold', 9)
-    c.drawRightString(x_colon, y_box_bottom - 42, 'TOTAL GROSS WEIGHT:')
+    c.drawRightString(x_colon, y_box_bottom - 36, 'TOTAL GROSS WEIGHT:')
     c.setFont('Helvetica', 9)
-    c.drawRightString(x_val, y_box_bottom - 42, gross_weight_str)
+    c.drawRightString(x_val, y_box_bottom - 36, gross_weight_str)
 
     c.setFont('Helvetica-Bold', 9)
-    c.drawRightString(x_colon, y_box_bottom - 62, 'TOTAL VOLUMES:')
+    c.drawRightString(x_colon, y_box_bottom - 54, 'TOTAL VOLUMES:')
     c.setFont('Helvetica', 9)
-    c.drawRightString(x_val, y_box_bottom - 62, '1')
+    c.drawRightString(x_val, y_box_bottom - 54, '1')
 
     # 7. Bottom Signature Line & Company Name
-    y_sig = y0 + 80
+    y_sig = y0 + 45
     c.setLineWidth(1)
     c.line(page_w / 2 - 140, y_sig, page_w / 2 + 140, y_sig)
 
@@ -204,4 +225,18 @@ def generate_invoice_pdf(sample):
 
     c.save()
     buffer.seek(0)
-    return buffer.getvalue()
+    invoice_bytes = buffer.getvalue()
+
+    # Overlay invoice content on top of letterhead
+    letterhead_path = get_letterhead_path()
+    if letterhead_path:
+        try:
+            doc_bg = pymupdf.open(letterhead_path)
+            doc_inv = pymupdf.open(stream=invoice_bytes, filetype='pdf')
+            page_bg = doc_bg[0]
+            page_bg.show_pdf_page(page_bg.rect, doc_inv, 0)
+            return doc_bg.tobytes(deflate=True)
+        except Exception:
+            return invoice_bytes
+
+    return invoice_bytes
