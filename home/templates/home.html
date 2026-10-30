@@ -91,7 +91,7 @@
                         <p><strong>Peso líquido:</strong> {{ sample.formatted_weight|default:"Não informado" }}</p>
                         <p><strong>Peso bruto:</strong> {{ sample.formatted_gross_weight|default:"Não informado" }}</p>
                         <p><strong>Tipo de Embalagem:</strong> {{ sample.package_type|default:"Não informado" }}</p>
-                        <p><strong>Nota fiscal:</strong> {{ sample.fiscal_number|default:"Não informado" }}</p>
+                        <p><strong>N° Nota fiscal:</strong> {{ sample.fiscal_number|default:"Não informado" }}</p>
                         <p><strong>Peneira:</strong> {{ sample.screen_size|default:"Não informado" }}</p>
                         <p><strong>Cupping:</strong> {{ sample.cupping|default:"Não informado" }}</p>
                         <p><strong>Comentários:</strong> {{ sample.comments|default:"Nenhum comentário" }}</p>
@@ -219,7 +219,7 @@
 
                 <div class="form-row">
                     <div class="sample-form-group">
-                        <label for="fiscal-number">NOTA FISCAL</label>
+                        <label for="fiscal-number"> N° NOTA FISCAL</label>
                         <input type="text" id="fiscal-number" name="fiscal_number" placeholder="Número da nota fiscal">
                     </div>
                     <div class="sample-form-group">
