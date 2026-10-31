@@ -39,6 +39,13 @@ def get_letterhead_path():
     return None
 
 
+def format_invoice_weight(weight, unit):
+    """Format a weight as stored, with its unit and at most three decimals."""
+    value = Decimal(str(weight))
+    formatted = f"{value:.3f}".rstrip('0').rstrip('.')
+    return f"{formatted} {unit}"
+
+
 def generate_invoice_pdf(sample):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
@@ -132,16 +139,24 @@ def generate_invoice_pdf(sample):
     weight_kg = sample.weight_in_kg
     if weight_kg is None or weight_kg <= 0:
         weight_kg = Decimal('0.500')
+        net_weight = weight_kg
+        net_weight_unit = 'kg'
     else:
         weight_kg = Decimal(str(weight_kg))
+        net_weight = sample.weight
+        net_weight_unit = sample.weight_unit
 
-    net_weight_str = f"{weight_kg:.3f}".replace('.', ',')
+    net_weight_str = format_invoice_weight(net_weight, net_weight_unit)
 
     if sample.gross_weight is not None and sample.gross_weight_in_kg is not None:
         gross_weight = Decimal(str(sample.gross_weight_in_kg))
+        gross_weight_display = sample.gross_weight
+        gross_weight_unit = sample.gross_weight_unit
     else:
         gross_weight = weight_kg + Decimal('0.050')
-    gross_weight_str = f"{gross_weight:.3f}".replace('.', ',')
+        gross_weight_display = gross_weight
+        gross_weight_unit = 'kg'
+    gross_weight_str = format_invoice_weight(gross_weight_display, gross_weight_unit)
 
     description_text = f"COFFEE WITH {net_weight_str} UNITS OF TYPE: GREEN COFFEE 100% ÁRABICA, REGIÃO DE ALTA MOGIANA."
 
