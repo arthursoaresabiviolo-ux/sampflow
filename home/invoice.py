@@ -24,10 +24,7 @@ def format_date_english(d):
 def get_letterhead_path():
     base_dir = getattr(settings, 'BASE_DIR', None)
     if base_dir:
-        candidates = [
-            os.path.join(base_dir, 'templates', 'static', 'home', 'pdf', 'letterhead.pdf'),
-            os.path.join(base_dir, 'home', 'assets', 'letterhead.pdf'),
-        ]
+        candidates = [os.path.join(base_dir, 'home', 'assets', 'letterhead.pdf')]
         for path in candidates:
             if os.path.exists(path):
                 return path
