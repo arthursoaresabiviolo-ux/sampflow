@@ -1,0 +1,5 @@
+To generate invoices with the correct letterhead, place the official file at:
+
+home/assets/letterhead.pdf
+
+*The PDF file must be called "letterhead.pdf" to work successfully.
