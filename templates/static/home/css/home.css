@@ -1,6 +1,6 @@
 /* Base Styles */
 body {
-    background: #fffefd url('../img/login_background_image.png') no-repeat center center fixed;
+    background: #fffefd url('../../img/login_background_image.png') no-repeat center center fixed;
     background-size: cover;
     color: #d1c7bd;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
