@@ -225,6 +225,19 @@ function initSampleSearch() {
 document.addEventListener('DOMContentLoaded', function() {
     restoreActiveTab();
     initSampleSearch();
+    const sampleForm = document.getElementById('sample-form');
+    const sampleImageInput = document.getElementById('sample-image');
+    const allowedImageTypes = new Set(['image/jpeg', 'image/png']);
+
+    sampleForm?.addEventListener('submit', function(event) {
+        const image = sampleImageInput?.files[0];
+        if (image && !allowedImageTypes.has(image.type)) {
+            event.preventDefault();
+            alert('Envie a foto da amostra nos formatos PNG ou JPEG.');
+            sampleImageInput.value = '';
+        }
+    });
+
     document.querySelectorAll('.btn-sample-details').forEach(function(button) {
         button.addEventListener('click', function() {
             toggleSampleDetails(button.dataset.sampleId, button);

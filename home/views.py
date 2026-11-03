@@ -1,10 +1,39 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse, Http404
+from django.contrib import messages
 from django.utils.dateparse import parse_date
 from decimal import Decimal, InvalidOperation
+from io import BytesIO
+from PIL import Image, UnidentifiedImageError
 from .models import Client, Sample
 from .invoice import generate_invoice_pdf
+
+
+ALLOWED_SAMPLE_IMAGE_FORMATS = {
+    'JPEG': 'image/jpeg',
+    'PNG': 'image/png',
+}
+
+
+def read_sample_image(image_file):
+    """Return verified image data and its canonical MIME type."""
+    if not image_file:
+        return None, None
+
+    image_data = image_file.read()
+    try:
+        image = Image.open(BytesIO(image_data))
+        image_format = image.format
+        image.verify()
+    except (UnidentifiedImageError, OSError, ValueError):
+        raise ValueError('Envie uma imagem PNG ou JPEG válida.')
+
+    mimetype = ALLOWED_SAMPLE_IMAGE_FORMATS.get(image_format)
+    if not mimetype:
+        raise ValueError('Envie a foto da amostra nos formatos PNG ou JPEG.')
+
+    return image_data, mimetype
 
 
 def parse_sample_weight(value): #Parses the input weight, detects the unit (kg or g), and returns a Decimal value with its unit.
@@ -79,9 +108,13 @@ def create_sample(request):
         courier = request.POST.get("courier", "").strip()
         screen_size = request.POST.get("screen_size", "").strip()
         cupping = request.POST.get("cupping", "").strip()
-        image_file = request.FILES.get("sample_image")
-        sample_image_data = image_file.read() if image_file else None
-        sample_image_mimetype = image_file.content_type if image_file else None
+        try:
+            sample_image_data, sample_image_mimetype = read_sample_image(
+                request.FILES.get("sample_image")
+            )
+        except ValueError as error:
+            messages.error(request, str(error))
+            return redirect(f"{reverse('home')}#samples-tab")
         comments = request.POST.get('comments', '').strip()
 
         Sample.objects.create(
@@ -143,9 +176,13 @@ def edit_sample(request, sample_id):
         sample.comments = request.POST.get('comments', '').strip()
 
         if request.FILES.get('sample_image'):
-            image_file = request.FILES['sample_image']
-            sample.sample_image = image_file.read()
-            sample.sample_image_mimetype = image_file.content_type or 'image/jpeg'
+            try:
+                sample.sample_image, sample.sample_image_mimetype = read_sample_image(
+                    request.FILES['sample_image']
+                )
+            except ValueError as error:
+                messages.error(request, str(error))
+                return redirect(f"{reverse('home')}#samples-tab")
 
         sample.save()
 

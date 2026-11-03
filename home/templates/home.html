@@ -37,6 +37,14 @@
     </nav>
     <div class="tabs-divider"></div>
 
+    {% if messages %}
+        <div class="app-messages" role="alert">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <section id="samples-tab" class="tab-content">
         <!-- Tab Header with Add Button (+) -->
         <div class="card-panel header-panel">
@@ -274,7 +282,7 @@
                 <div class="form-row">
                     <div class="sample-form-group">
                         <label for="sample-image">FOTO DA AMOSTRA</label>
-                        <input type="file" id="sample-image" name="sample_image" accept="image/*">
+                        <input type="file" id="sample-image" name="sample_image" accept="image/png,image/jpeg,.png,.jpg,.jpeg">
                     </div>
                     <div class="sample-form-group">
                         <label for="shipment-cost">VALOR DE ENVIO</label>
