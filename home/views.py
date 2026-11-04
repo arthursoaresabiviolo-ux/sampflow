@@ -52,6 +52,30 @@ def parse_sample_weight(value): #Parses the input weight, detects the unit (kg o
     except InvalidOperation:
         return None, unit
 
+
+def parse_shipment_cost(value):
+    """Parse a Brazilian or international currency value into a Decimal."""
+    raw = (value or '').strip()
+    if not raw:
+        return None
+
+    normalized = raw.replace('R$', '').replace('$', '').replace(' ', '')
+    if ',' in normalized and '.' in normalized:
+        if normalized.rfind(',') > normalized.rfind('.'):
+            normalized = normalized.replace('.', '').replace(',', '.')
+        else:
+            normalized = normalized.replace(',', '')
+    elif ',' in normalized:
+        normalized = normalized.replace(',', '.')
+
+    try:
+        amount = Decimal(normalized).quantize(Decimal('0.01'))
+        if not amount.is_finite() or amount < 0 or amount.adjusted() > 9:
+            raise InvalidOperation
+        return amount
+    except InvalidOperation:
+        raise ValueError('Informe um valor de envio válido, por exemplo: R$ 100,00.')
+
 def home(request):
     if request.method == 'GET':
         clients = Client.objects.all()
@@ -100,7 +124,11 @@ def create_sample(request):
         weight, weight_unit = parse_sample_weight(request.POST.get("weight"))
         gross_weight, gross_weight_unit = parse_sample_weight(request.POST.get("gross_weight"))
         package_type = request.POST.get("package_type", "").strip()
-        shipment_cost = request.POST.get("shipment_cost", "").strip()
+        try:
+            shipment_cost = parse_shipment_cost(request.POST.get("shipment_cost"))
+        except ValueError as error:
+            messages.error(request, str(error))
+            return redirect(f"{reverse('home')}#samples-tab")
         fiscal_number = request.POST.get("fiscal_number", "").strip()
         shipping_date = parse_date(request.POST.get("shipping_date", ""))
         delivery_date = parse_date(request.POST.get("delivery_date", ""))
@@ -165,7 +193,11 @@ def edit_sample(request, sample_id):
         sample.weight, sample.weight_unit = parse_sample_weight(request.POST.get('weight'))
         sample.gross_weight, sample.gross_weight_unit = parse_sample_weight(request.POST.get('gross_weight'))
         sample.package_type = request.POST.get('package_type', '').strip()
-        sample.shipment_cost = request.POST.get('shipment_cost', '').strip()
+        try:
+            sample.shipment_cost = parse_shipment_cost(request.POST.get('shipment_cost'))
+        except ValueError as error:
+            messages.error(request, str(error))
+            return redirect(f"{reverse('home')}#samples-tab")
         sample.fiscal_number = request.POST.get('fiscal_number', '').strip()
         sample.shipping_date = parse_date(request.POST.get('shipping_date', ''))
         sample.delivery_date = parse_date(request.POST.get('delivery_date', ''))
