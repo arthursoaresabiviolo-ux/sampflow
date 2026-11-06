@@ -12,6 +12,26 @@ class Client(models.Model):
         return self.name
 
 class Sample(models.Model):
+    class SampleType(models.TextChoices):
+        PRE_SHIPMENT = 'Pré embarque', 'Pré Embarque'
+        SHIPMENT = 'Embarque', 'Embarque'
+        COMMERCIAL_SAMPLE = 'Amostra Comercial', 'Amostra Comercial'
+
+    class Status(models.TextChoices):
+        PENDING = 'Pendente', 'Pendente'
+        AWAITING_COLLECTION = 'Aguardando coleta', 'Aguardando coleta'
+        IN_TRANSIT = 'Em Trânsito', 'Em Trânsito'
+        COMPLETED = 'Concluído', 'Concluído'
+
+    class Courier(models.TextChoices):
+        FEDEX = 'FedEx', 'FedEx'
+        CORREIOS = 'Correios', 'Correios'
+        DHL = 'DHL', 'DHL'
+        UPS = 'UPS', 'UPS'
+
+    class Currency(models.TextChoices):
+        BRL = 'BRL', 'Real brasileiro (BRL)'
+
     PACKAGE_TYPE_CHOICES = [
         ('FedEx Large Pak (30,48 cm x 39,37 cm)', 'FedEx Large Pak (30,48 cm x 39,37 cm)'),
         ('FedEx Small Box (31,12 cm x 27,69 cm x 3,81 cm)', 'FedEx Small Box (31,12 cm x 27,69 cm x 3,81 cm)'),
@@ -24,8 +44,8 @@ class Sample(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='samples')
     contract_ref = models.CharField(max_length=100, blank=True, null=True)
     contract_month = models.CharField(max_length=100, blank=True, null=True)
-    sample_type = models.CharField(max_length=100, blank=True, null=True)
-    status = models.CharField(max_length=100, blank=True, null=True)
+    sample_type = models.CharField(max_length=100, choices=SampleType, blank=True, null=True)
+    status = models.CharField(max_length=100, choices=Status, blank=True, null=True)
     weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     gross_weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     weight_unit = models.CharField(max_length=5, choices=[('g', 'g'), ('kg', 'kg')], default='g')
@@ -35,14 +55,24 @@ class Sample(models.Model):
     shipping_date = models.DateField(blank=True, null=True)
     delivery_date = models.DateField(blank=True, null=True)
     tracking_number = models.CharField(max_length=100, blank=True, null=True)
-    courier = models.CharField(max_length=100, blank=True, null=True)
+    courier = models.CharField(max_length=100, choices=Courier, blank=True, null=True)
     screen_size = models.CharField(max_length=100, blank=True, null=True)
     cupping = models.CharField(max_length=100, blank=True, null=True)
-    shipment_cost = models.CharField(max_length=100, blank=True, null=True)
+    shipment_cost = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    shipment_currency = models.CharField(max_length=3, choices=Currency, default=Currency.BRL)
     comments = models.TextField(blank=True, null=True)
     sample_image = models.BinaryField(blank=True, null=True)
     sample_image_mimetype = models.CharField(max_length=50, blank=True, null=True, default='image/jpeg')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['shipping_date']),
+            models.Index(fields=['delivery_date']),
+            models.Index(fields=['status']),
+            models.Index(fields=['courier']),
+            models.Index(fields=['client', 'shipping_date']),
+        ]
 
     @property
     def weight_in_kg(self): #Returns the weight converted to kilograms (kg).
