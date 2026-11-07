@@ -30,17 +30,19 @@
     background-color: #0d1b2a; border: 1px solid #1e334d; border-radius: 14px;
     padding: 18px 20px; color: #e0e1dd; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     display: flex; flex-direction: column; justify-content: space-between;
-    position: relative; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative; overflow: hidden; container-type: inline-size;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .sample-card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
     background: linear-gradient(90deg, #f8c301, #e5a855, transparent); opacity: 0.85;
 }
 .sample-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35); border-color: #2b4566; }
-.sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(30, 51, 77, 0.6); }
+.sample-card-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(30, 51, 77, 0.6); }
 .contract-tag {
     font-weight: 700; color: #f8c301; font-size: 0.88rem; letter-spacing: 0.4px;
     background-color: rgba(248, 195, 1, 0.1); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(248, 195, 1, 0.25);
+    white-space: nowrap;
 }
 
 /* Status Badges */
@@ -49,6 +51,11 @@
 .status-em-transito { background-color: rgba(37, 99, 235, 0.2); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.35); }
 .status-concluido { background-color: rgba(22, 163, 74, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.35); }
 .status-aguardando-coleta { background-color: rgba(147, 51, 234, 0.18); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.35); }
+
+/* Empilha identificação e situação antes que uma invada o espaço da outra. */
+@container (max-width: 285px) {
+    .sample-card-header { flex-direction: column; align-items: flex-start; }
+}
 
 /* Card Body & Footer */
 .sample-card-body p { margin: 6px 0; font-size: 0.87rem; color: #94a3b8; line-height: 1.45; }
