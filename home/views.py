@@ -80,7 +80,26 @@ def home(request):
     if request.method == 'GET':
         clients = Client.objects.all()
         samples = Sample.objects.all().order_by('-created_at')
-        return render(request, 'home.html', {'clients': clients, 'samples': samples})
+        dashboard_samples = list(
+            Sample.objects.filter(shipping_date__isnull=False, shipment_cost__isnull=False)
+            .select_related('client')
+            .order_by('-shipping_date', '-id')
+        )
+        dashboard_costs = [
+            {
+                'date': sample.shipping_date.isoformat(),
+                'cost': float(sample.shipment_cost),
+                'client': sample.client.name,
+                'contract': sample.contract_ref or 'Sem contrato',
+                'courier': sample.courier or 'Não informado',
+            }
+            for sample in dashboard_samples
+        ]
+        return render(request, 'home.html', {
+            'clients': clients,
+            'samples': samples,
+            'dashboard_costs': dashboard_costs,
+        })
 
 def create_client(request):
     if request.method == 'POST':
