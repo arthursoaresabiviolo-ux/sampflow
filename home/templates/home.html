@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="/static/img/favicon.ico">
     <link rel="stylesheet" href="/static/home/css/home.css">
     <link rel="stylesheet" href="/static/home/css/samples.css">
+    <link rel="stylesheet" href="/static/home/css/dashboards.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -306,7 +307,64 @@
     </div>
 
     <section id="dashboards-tab" class="tab-content">
-        <div class="card-panel"><h2>Dashboards📈</h2></div>
+        <div class="dashboard-heading">
+            <div>
+                <p class="dashboard-eyebrow">VISÃO FINANCEIRA</p>
+                <h2>Custos de amostras</h2>
+                <p class="dashboard-description">Acompanhe os custos de envio por mês, considerando a data de envio de cada amostra.</p>
+            </div>
+            <label class="dashboard-month-filter" for="dashboard-month">
+                <span>Mês de referência</span>
+                <input type="month" id="dashboard-month" aria-label="Mês de referência do dashboard">
+            </label>
+        </div>
+
+        <div class="dashboard-metrics" aria-live="polite">
+            <article class="dashboard-metric-card total-cost-card">
+                <span class="metric-label">Custo total</span>
+                <strong id="dashboard-total-cost">R$ 0,00</strong>
+                <span id="dashboard-period-label" class="metric-note">Selecione um mês</span>
+            </article>
+            <article class="dashboard-metric-card">
+                <span class="metric-label">Amostras com custo</span>
+                <strong id="dashboard-sample-count">0</strong>
+                <span class="metric-note">envios registrados</span>
+            </article>
+            <article class="dashboard-metric-card">
+                <span class="metric-label">Custo médio por amostra</span>
+                <strong id="dashboard-average-cost">R$ 0,00</strong>
+                <span class="metric-note">no mês selecionado</span>
+            </article>
+        </div>
+
+        <div class="dashboard-content-grid">
+            <article class="dashboard-panel">
+                <div class="dashboard-panel-heading">
+                    <div>
+                        <h3>Custos por cliente</h3>
+                        <p>Participação no total mensal</p>
+                    </div>
+                </div>
+                <div id="dashboard-client-breakdown" class="client-cost-list"></div>
+            </article>
+            <article class="dashboard-panel">
+                <div class="dashboard-panel-heading">
+                    <div>
+                        <h3>Envios considerados</h3>
+                        <p>Detalhamento das amostras no período</p>
+                    </div>
+                </div>
+                <div class="dashboard-table-wrapper">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr><th>Data</th><th>Contrato</th><th>Cliente</th><th>Transportadora</th><th>Custo</th></tr>
+                        </thead>
+                        <tbody id="dashboard-cost-table"></tbody>
+                    </table>
+                </div>
+            </article>
+        </div>
+        {{ dashboard_costs|json_script:"dashboard-cost-data" }}
     </section>
 
     <section id="clients-tab" class="tab-content active">
@@ -398,6 +456,7 @@
     <footer><p>&copy; 2026 SampFlow. Todos os direitos reservados.</p></footer>
     
     <script src="/static/home/js/home.js"></script>
+    <script src="/static/home/js/dashboards.js"></script>
     <script>lucide.createIcons();</script>
 </body>
 </html>
