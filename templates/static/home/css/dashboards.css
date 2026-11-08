@@ -1,0 +1,35 @@
+/* Dashboard tab: sample shipment costs */
+.dashboard-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
+.dashboard-eyebrow { margin: 0 0 6px; color: #e5a855; font-size: .72rem; font-weight: 800; letter-spacing: 1.5px; }
+.dashboard-heading h2 { color: #0d1b2a; font-family: Georgia, serif; font-size: 2rem; margin: 0; }
+.dashboard-description { color: #334e68; margin: 8px 0 0; max-width: 610px; }
+.dashboard-month-filter { background: #0d1b2a; border: 1px solid #1e334d; border-radius: 10px; color: #f5efe6; display: flex; flex-direction: column; gap: 6px; min-width: 190px; padding: 10px 12px; }
+.dashboard-month-filter span, .metric-label { color: #a9bed1; font-size: .72rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+.dashboard-month-filter input { background: #09131f; border: 1px solid #2b4566; border-radius: 6px; color: #f5efe6; font: inherit; padding: 7px; }
+.dashboard-metrics { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 20px; }
+.dashboard-metric-card, .dashboard-panel { background: #0d1b2a; border: 1px solid #1e334d; border-radius: 12px; box-shadow: 0 4px 16px rgba(0, 0, 0, .2); }
+.dashboard-metric-card { display: flex; flex-direction: column; min-height: 112px; padding: 20px; }
+.dashboard-metric-card strong { color: #f5efe6; font-family: Georgia, serif; font-size: 1.75rem; margin: 10px 0 5px; }
+.total-cost-card { border-color: rgba(248, 195, 1, .7); background: linear-gradient(120deg, #0d1b2a, #142a40); }
+.total-cost-card strong { color: #f8c301; }
+.metric-note, .dashboard-panel-heading p { color: #a9bed1; font-size: .82rem; }
+.dashboard-content-grid { display: grid; gap: 20px; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.7fr); }
+.dashboard-panel { overflow: hidden; }
+.dashboard-panel-heading { border-bottom: 1px solid #1e334d; padding: 19px 20px 14px; }
+.dashboard-panel-heading h3 { color: #f5efe6; font-family: Georgia, serif; font-size: 1.1rem; margin: 0; }
+.dashboard-panel-heading p { margin: 4px 0 0; }
+.client-cost-list { display: grid; gap: 15px; padding: 20px; }
+.client-cost-row { display: grid; gap: 7px; }
+.client-cost-info { display: flex; justify-content: space-between; gap: 12px; color: #f5efe6; font-size: .88rem; }
+.client-cost-info span:last-child { color: #f8c301; font-weight: 700; white-space: nowrap; }
+.cost-progress { background: #09131f; border-radius: 10px; height: 7px; overflow: hidden; }
+.cost-progress > span { background: linear-gradient(90deg, #f8c301, #e5a855); border-radius: inherit; display: block; height: 100%; }
+.dashboard-table-wrapper { overflow-x: auto; }
+.dashboard-table { border-collapse: collapse; color: #e0e1dd; min-width: 620px; width: 100%; }
+.dashboard-table th { color: #a9bed1; font-size: .7rem; letter-spacing: .7px; padding: 13px 16px; text-align: left; text-transform: uppercase; }
+.dashboard-table td { border-top: 1px solid rgba(30, 51, 77, .7); font-size: .84rem; padding: 14px 16px; }
+.dashboard-table td:last-child { color: #f8c301; font-weight: 700; white-space: nowrap; }
+.dashboard-empty { color: #a9bed1; font-size: .9rem; margin: 4px 0; padding: 18px 0; text-align: center; }
+.dashboard-table .dashboard-empty { padding: 28px 16px; }
+@media (max-width: 850px) { .dashboard-heading { align-items: stretch; flex-direction: column; } .dashboard-month-filter { width: auto; } .dashboard-metrics, .dashboard-content-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .dashboard-heading h2 { font-size: 1.6rem; } .dashboard-metrics { gap: 12px; } .dashboard-metric-card { min-height: auto; } }
