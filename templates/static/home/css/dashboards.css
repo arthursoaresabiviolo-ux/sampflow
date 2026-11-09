@@ -1,9 +1,9 @@
 /* Dashboard tab: sample shipment costs */
-.dashboard-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
+.dashboard-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; padding: 20px 26px; }
 .dashboard-eyebrow { margin: 0 0 6px; color: #e5a855; font-size: .72rem; font-weight: 800; letter-spacing: 1.5px; }
-.dashboard-heading h2 { color: #0d1b2a; font-family: Georgia, serif; font-size: 2rem; margin: 0; }
-.dashboard-description { color: #334e68; margin: 8px 0 0; max-width: 610px; }
-.dashboard-month-filter { background: #0d1b2a; border: 1px solid #1e334d; border-radius: 10px; color: #f5efe6; display: flex; flex-direction: column; gap: 6px; min-width: 190px; padding: 10px 12px; }
+.dashboard-heading h2 { color: #f5efe6; font-family: Georgia, serif; font-size: 2rem; margin: 0; }
+.dashboard-description { color: #d1c7bd; margin: 8px 0 0; max-width: 610px; }
+.dashboard-month-filter { background: #09131f; border: 1px solid #1e334d; border-radius: 10px; color: #f5efe6; display: flex; flex-direction: column; gap: 6px; min-width: 190px; padding: 10px 12px; }
 .dashboard-month-filter span, .metric-label { color: #a9bed1; font-size: .72rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
 .dashboard-month-filter input { background: #09131f; border: 1px solid #2b4566; border-radius: 6px; color: #f5efe6; font: inherit; padding: 7px; }
 .dashboard-metrics { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 20px; }
