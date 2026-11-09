@@ -36,8 +36,8 @@
             : '<p class="dashboard-empty">Não há custos de envio registrados neste mês.</p>';
 
         document.getElementById('dashboard-cost-table').innerHTML = monthlyCosts.length
-            ? monthlyCosts.map((item) => `<tr><td>${dateFormatter.format(new Date(`${item.date}T00:00:00Z`))}</td><td>${escapeHtml(item.contract)}</td><td>${escapeHtml(item.client)}</td><td>${escapeHtml(item.courier)}</td><td>${formatter.format(item.cost)}</td></tr>`).join('')
-            : '<tr><td colspan="5" class="dashboard-empty">Nenhuma amostra com custo e data de envio foi encontrada para este mês.</td></tr>';
+            ? monthlyCosts.map((item) => `<tr><td>${dateFormatter.format(new Date(`${item.date}T00:00:00Z`))}</td><td>${escapeHtml(item.contract)}</td><td>${escapeHtml(item.client)}</td><td>${escapeHtml(item.sample_type)}</td><td>${escapeHtml(item.courier)}</td><td>${formatter.format(item.cost)}</td></tr>`).join('')
+            : '<tr><td colspan="6" class="dashboard-empty">Nenhuma amostra com custo e data de envio foi encontrada para este mês.</td></tr>';
     }
 
     monthInput.addEventListener('change', render);

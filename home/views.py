@@ -92,6 +92,7 @@ def home(request):
                 'client': sample.client.name,
                 'contract': sample.contract_ref or 'Sem contrato',
                 'courier': sample.courier or 'Não informado',
+                'sample_type': sample.sample_type or 'Não informado',
             }
             for sample in dashboard_samples
         ]
