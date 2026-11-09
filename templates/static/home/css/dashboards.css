@@ -3,12 +3,12 @@
 .dashboard-eyebrow { margin: 0 0 6px; color: #e5a855; font-size: .72rem; font-weight: 800; letter-spacing: 1.5px; }
 .dashboard-heading h2 { color: #f5efe6; font-family: Georgia, serif; font-size: 2rem; margin: 0; }
 .dashboard-description { color: #d1c7bd; margin: 8px 0 0; max-width: 610px; }
-.dashboard-month-filter { background: #09131f; border: 1px solid #1e334d; border-radius: 10px; color: #f5efe6; display: flex; flex-direction: column; gap: 6px; min-width: 190px; padding: 10px 12px; }
+.dashboard-month-filter { align-items: center; background: #09131f; border: 1px solid #1e334d; border-radius: 10px; color: #f5efe6; display: flex; flex-direction: column; gap: 6px; min-width: 190px; padding: 10px 12px; text-align: center; }
 .dashboard-month-filter span, .metric-label { color: #a9bed1; font-size: .72rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
-.dashboard-month-filter input { background: #09131f; border: 1px solid #2b4566; border-radius: 6px; color: #f5efe6; font: inherit; padding: 7px; }
+.dashboard-month-filter input { background: #09131f; border: 1px solid #2b4566; border-radius: 6px; color: #f5efe6; font: inherit; padding: 7px; text-align: center; }
 .dashboard-metrics { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 20px; }
 .dashboard-metric-card, .dashboard-panel { background: #0d1b2a; border: 1px solid #1e334d; border-radius: 12px; box-shadow: 0 4px 16px rgba(0, 0, 0, .2); }
-.dashboard-metric-card { display: flex; flex-direction: column; min-height: 112px; padding: 20px; }
+.dashboard-metric-card { align-items: center; display: flex; flex-direction: column; justify-content: center; min-height: 112px; padding: 20px; text-align: center; }
 .dashboard-metric-card strong { color: #f5efe6; font-family: Georgia, serif; font-size: 1.75rem; margin: 10px 0 5px; }
 .total-cost-card { border-color: rgba(248, 195, 1, .7); background: linear-gradient(120deg, #0d1b2a, #142a40); }
 .total-cost-card strong { color: #f8c301; }
@@ -25,7 +25,7 @@
 .cost-progress { background: #09131f; border-radius: 10px; height: 7px; overflow: hidden; }
 .cost-progress > span { background: linear-gradient(90deg, #f8c301, #e5a855); border-radius: inherit; display: block; height: 100%; }
 .dashboard-table-wrapper { overflow-x: auto; }
-.dashboard-table { border-collapse: collapse; color: #e0e1dd; min-width: 620px; width: 100%; }
+.dashboard-table { border-collapse: collapse; color: #e0e1dd; min-width: 760px; width: 100%; }
 .dashboard-table th { color: #a9bed1; font-size: .7rem; letter-spacing: .7px; padding: 13px 16px; text-align: left; text-transform: uppercase; }
 .dashboard-table td { border-top: 1px solid rgba(30, 51, 77, .7); font-size: .84rem; padding: 14px 16px; }
 .dashboard-table td:last-child { color: #f8c301; font-weight: 700; white-space: nowrap; }
