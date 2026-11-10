@@ -2,7 +2,10 @@
 (function () {
     const dataElement = document.getElementById('dashboard-cost-data');
     const monthInput = document.getElementById('dashboard-month');
-    if (!dataElement || !monthInput) return;
+    const courierFilter = document.getElementById('dashboard-courier-filter');
+    const clientFilter = document.getElementById('dashboard-client-filter');
+    const sampleTypeFilter = document.getElementById('dashboard-sample-type-filter');
+    if (!dataElement || !monthInput || !courierFilter || !clientFilter || !sampleTypeFilter) return;
 
     let costs = [];
     try { costs = JSON.parse(dataElement.textContent); } catch (error) { return; }
@@ -15,9 +18,33 @@
     const latestMonth = costs.reduce((latest, item) => item.date.slice(0, 7) > latest ? item.date.slice(0, 7) : latest, '');
     monthInput.value = latestMonth || new Date().toISOString().slice(0, 7);
 
+    function populateFilter(select, values) {
+        [...new Set(values)].sort((first, second) => first.localeCompare(second, 'pt-BR')).forEach((value) => {
+            select.add(new Option(value, value));
+        });
+    }
+
+    const canonicalCourier = (courier) => {
+        const normalized = String(courier || '').trim().toLocaleLowerCase('pt-BR');
+        if (normalized === 'fedex') return 'FedEx';
+        if (normalized === 'correio' || normalized === 'correios') return 'Correios';
+        if (normalized === 'dhl') return 'DHL';
+        if (normalized === 'ups') return 'UPS';
+        return courier;
+    };
+
+    populateFilter(courierFilter, ['FedEx', 'Correios', 'DHL', 'UPS']);
+    populateFilter(clientFilter, costs.map((item) => item.client));
+    populateFilter(sampleTypeFilter, costs.map((item) => item.sample_type));
+
     function render() {
         const selectedMonth = monthInput.value;
-        const monthlyCosts = costs.filter((item) => item.date.startsWith(selectedMonth));
+        const monthlyCosts = costs.filter((item) => (
+            item.date.startsWith(selectedMonth)
+            && (!courierFilter.value || canonicalCourier(item.courier) === courierFilter.value)
+            && (!clientFilter.value || item.client === clientFilter.value)
+            && (!sampleTypeFilter.value || item.sample_type === sampleTypeFilter.value)
+        ));
         const total = monthlyCosts.reduce((sum, item) => sum + Number(item.cost), 0);
         const average = monthlyCosts.length ? total / monthlyCosts.length : 0;
         const selectedDate = selectedMonth ? new Date(`${selectedMonth}-01T00:00:00Z`) : null;
@@ -41,5 +68,6 @@
     }
 
     monthInput.addEventListener('change', render);
+    [courierFilter, clientFilter, sampleTypeFilter].forEach((filter) => filter.addEventListener('change', render));
     render();
 }());
