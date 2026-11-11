@@ -34,7 +34,6 @@
     };
 
     populateFilter(courierFilter, ['FedEx', 'Correios', 'DHL', 'UPS']);
-    populateFilter(clientFilter, costs.map((item) => item.client));
     populateFilter(sampleTypeFilter, costs.map((item) => item.sample_type));
 
     function render() {

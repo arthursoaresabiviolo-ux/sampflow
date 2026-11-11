@@ -78,7 +78,7 @@ def parse_shipment_cost(value):
 
 def home(request):
     if request.method == 'GET':
-        clients = Client.objects.all()
+        clients = Client.objects.all().order_by('name')
         samples = Sample.objects.all().order_by('-created_at')
         dashboard_samples = list(
             Sample.objects.filter(shipping_date__isnull=False, shipment_cost__isnull=False)
