@@ -158,12 +158,6 @@ python manage.py runserver
 ```
 Open your browser and navigate to: **`http://127.0.0.1:8000/`**
 
-#### 9. Running Tests
-To run the automated test suite (including invoice generation and weight calculation tests):
-```bash
-python manage.py test
-```
-
 ---
 
 ### 🧭 How to Use SampFlow
@@ -335,12 +329,6 @@ Siga as instruções no terminal para definir nome de usuário, e-mail e senha.
 python manage.py runserver
 ```
 Acesse no seu navegador: **`http://127.0.0.1:8000/`**
-
-#### 9. Executar Testes Automatizados
-Para executar a suíte de testes (validações de invoice, pesos e rotas):
-```bash
-python manage.py test
-```
 
 ---
 
