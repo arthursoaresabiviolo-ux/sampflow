@@ -113,7 +113,7 @@ SampFlow/
 #### 2. Clone the Repository
 ```bash
 git clone <repository-url>
-cd "Sample Project"
+cd "sampflow"
 ```
 
 #### 3. Set Up a Virtual Environment
@@ -286,7 +286,7 @@ SampFlow/
 #### 2. Clonar o Repositório
 ```bash
 git clone <url-do-repositorio>
-cd "Sample Project"
+cd "sampflow"
 ```
 
 #### 3. Criar e Ativar o Ambiente Virtual
